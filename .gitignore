@@ -1,8 +1,10 @@
 config/*.yml
 config/webistrano_config.rb
+config/deploy.rb
 tmp/*
 log/*
 *~
 .DS_Store
 *.tmproj
+Capfile
 Gemfile.lock
