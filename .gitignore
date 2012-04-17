@@ -8,3 +8,4 @@ log/*
 *.tmproj
 Capfile
 Gemfile.lock
+public/stylesheets/application.css
