@@ -254,6 +254,12 @@ module Webistrano
 	        hash[type_cast(key)] = type_cast(value)
 	        hash
 	      end
+      when /\Aeval:(.*)/
+        begin
+          eval($1)
+        rescue => e
+          raise e, "value cannot be eval: #{e.message}", e.backtrace
+        end
       else # symbol or string
         if cvs_root_defintion?(val)
           val.to_s
