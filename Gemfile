@@ -9,7 +9,12 @@ gem "syntax", "1.0.0"
 gem "capistrano", "~>2.12.0"
 gem "open4", "0.9.3"
 gem "exception_notification", "2.3.3.0"
+gem "unicorn", "~>4.2.1"
 
 group :test do
   gem "mocha", "0.9.8"
+end
+
+group :development do
+  gem 'ruby-debug'
 end
