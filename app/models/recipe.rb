@@ -2,6 +2,7 @@ class Recipe < ActiveRecord::Base
   has_and_belongs_to_many :stages
   
   validates :name, :uniqueness => true, :presence => true, :length => {:maximum => 250}
+  validates :body, :presence => true
   validate :check_syntax
 
   attr_accessible :name, :body, :description

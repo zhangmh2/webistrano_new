@@ -26,7 +26,11 @@
     <% end %>
   <% else %>
     <div class="menu_item">No project created yet</div>
-    <a href="<%= new_project_path %>" class="menu_link  menu_link_create">New project</a>
+    <a href="<%= new_project_path %>" class="menu_link  menu_link_create">
+      <div class="menu_link_title">
+        New project
+      </div>
+    </a>
   <% end %>
 </div>
 <div id="projects_closed_content" style="<%= show_if_closed(status) %>">

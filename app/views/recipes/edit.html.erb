@@ -2,7 +2,7 @@
   <%= breadcrumb_box do %>
     <%= link_to "Recipes", recipes_path %>
     <span class="divider">&raquo;</span>
-    <%= link_to "Recipe #{recipe.name}", recipe_path(@recipe) %>
+    <%= link_to @recipe.name, @recipe %>
     <span class="divider">&raquo;</span>
     Edit
   <% end %>
