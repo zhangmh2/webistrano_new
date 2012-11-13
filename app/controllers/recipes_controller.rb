@@ -1,8 +1,8 @@
 class RecipesController < ApplicationController
+  respond_to :html, :xml, :json
   before_filter :ensure_admin, :only => [:new, :edit, :destroy, :create, :update]
-  
+
   # GET /recipes
-  # GET /recipes.xml
   def index
     @recipes = Recipe.find(:all)
 
@@ -16,7 +16,7 @@ class RecipesController < ApplicationController
   # GET /recipes/1.xml
   def show
     find_recipe_with_version
-    
+
     respond_to do |format|
       format.html # show.rhtml
       format.xml  { render :xml => @recipe.to_xml }
@@ -26,6 +26,7 @@ class RecipesController < ApplicationController
   # GET /recipes/new
   def new
     @recipe = Recipe.new
+    respond_with(@recipe)
   end
 
   # GET /recipes/1;edit
@@ -71,15 +72,15 @@ class RecipesController < ApplicationController
   # DELETE /recipes/1.xml
   def destroy
     @recipe = Recipe.find(params[:id])
-    @recipe.destroy
+    @recipe.delete_logically_with_asscociation
     flash[:notice] = 'Recipe was successfully deleted.'
-    
+
     respond_to do |format|
       format.html { redirect_to recipes_url }
       format.xml  { head :ok }
     end
   end
-  
+
   def preview
     @recipe = Recipe.new(params[:recipe])
     respond_to do |format|
@@ -91,11 +92,12 @@ class RecipesController < ApplicationController
       }
     end
   end
-  
-  private
+
+private
+
   def find_recipe_with_version
     @recipe = Recipe.find(params[:id])
-    
+
     unless params[:version].blank?
       recipe_version = @recipe.find_version(params[:version])
       @recipe.attributes = @recipe.find_version(params[:version]).attributes if recipe_version

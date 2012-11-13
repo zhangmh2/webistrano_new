@@ -17,16 +17,13 @@ module ApplicationHelper
     obj = instance_variable_get("@#{object_name}")
     return nil if obj.errors.blank?
     
-      
     error_messages = obj.errors.full_messages.map {|msg| content_tag(:li, msg)}
 
-    html = content_tag(:p,"#{pluralize(obj.errors.size, 'error')} prohibited this #{object_name.to_s.gsub('_', ' ')} from being saved")
-    html << content_tag(:div,
-                       content_tag(:ul, error_messages)
-                       )
+    html = content_tag(:p, "#{pluralize(obj.errors.size, 'error')} prohibited this #{object_name.to_s.gsub('_', ' ')} from being saved")
+    html << content_tag(:div, content_tag(:ul, error_messages))
     
     content_for(:flash_content) do                   
-      error_flash(html)
+      error_flash(raw html)
     end
   end
   
@@ -44,7 +41,7 @@ module ApplicationHelper
   end
   
   def current_stage_project_description
-    "stage: #{link_to h(current_stage.name), project_stage_path(current_project, current_stage)} (of project #{link_to h(current_project.name), project_path(current_project)})"
+    raw "stage: #{link_to current_stage.name, [current_project, current_stage]} (of project #{link_to current_project.name, current_project})"
   end
   
   # returns the open/closed status of a menu
@@ -89,7 +86,7 @@ module ApplicationHelper
   end
   
   def user_info(user)
-    link_to user.login, user_path(user)
+    link_to user.login, user
   end
   
   def show_if_closed(status)
@@ -129,7 +126,7 @@ module ApplicationHelper
     out << capture(&block) if block
     out << "</b></div>"
     
-    block ? concat(out) : out
+    raw out
   end
   
 end

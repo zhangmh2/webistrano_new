@@ -1,15 +1,39 @@
-source "http://rubygems.org"
+source "https://rubygems.org"
 
-gem 'bundler', "~>1.0.10"
-gem "rails", "2.3.11"
-gem "mysql"
-gem "erubis"
-gem "rake"
-gem "syntax", "1.0.0"
-gem "capistrano", "2.6.0"
-gem "open4", "0.9.3"
-gem "exception_notification", "2.3.3.0"
+gem "rails", "3.2.8"
+
+gem "exception_notification"
+
+gem "capistrano"
+gem "open4"
+gem "syntax"
+gem "version_fu", :github => "jmckible/version_fu"
+gem 'devise'
+gem 'devise-encryptable'
+
+group :development do
+  gem "sqlite3"
+  gem 'debugger'
+  gem "pry"
+  gem "pry-rails"
+end
 
 group :test do
-  gem "mocha", "0.9.8"
+  gem "sqlite3"
+  gem "mocha"
+
+  gem 'spork'
+end
+
+group :production do
+  gem "mysql2"
+  gem "unicorn"
+end
+
+group :assets do
+  gem "sass-rails"
+  gem "compass"
+  gem "compass-rails"
+
+  gem "jquery-rails"
 end

@@ -1,8 +1,14 @@
+.bundle
+Gemfile.lock
+vendor/bundler
+
+tmp/**/*
+log/*
 config/*.yml
 config/webistrano_config.rb
-tmp/*
-log/*
+db/*.sqlite3
+public/stylesheets/*.css
+
 *~
 .DS_Store
 *.tmproj
-Gemfile.lock
