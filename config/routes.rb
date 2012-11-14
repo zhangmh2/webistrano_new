@@ -9,7 +9,7 @@ Webistrano::Application.routes.draw do
       member do
         get :tasks
         get :capfile
-        get :resipes
+        get :recipes
         put :recipes
       end
       resources :stage_configurations
@@ -28,6 +28,9 @@ Webistrano::Application.routes.draw do
   resources :hosts
 
   resources :recipes do
+    collection do
+      get :preview
+    end
   end
 
   resources :users do

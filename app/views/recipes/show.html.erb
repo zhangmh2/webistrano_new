@@ -42,17 +42,15 @@
 <fieldset class="fieldset" style="width: 212px; margin-left: 28px; float: right;">
   <legend>Description</legend>
   <p>
-    <%=web_friendly_text @recipe.description %>
+    <%= web_friendly_text @recipe.description %>
   </p>
   <%= link_to 'Edit', edit_recipe_path(@recipe), :class => 'arrow_link' %>
 </fieldset>
 
 <fieldset class="fieldset">
   <legend>Used by stage</legend>
-  <%= render(:partial => 'stages')%>
+  <%= render :partial => 'stages' %>
 </fieldset>
-
-<div class="clear"></div>
 
 <div class="clear"></div>
 <br />

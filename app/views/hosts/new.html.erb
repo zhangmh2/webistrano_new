@@ -14,8 +14,8 @@
 <% flashed_errors(:host) %>
 
 <div>
-  <%= form_for @host, html: {class: "form-horizontal"} do |f| %>
-    <%= render partial: 'form', locals: {form: f} %>
+  <%= form_for @host, :html => {:class => "form-horizontal"} do |f| %>
+    <%= render :partial => 'form', :locals => {:form => f} %>
     <div class="form-actions">
       <%= f.submit class: "btn btn-primary" %>
       <%= link_to 'Back to host', hosts_path, :class => 'arrow_link ontheright' %>

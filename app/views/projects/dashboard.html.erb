@@ -29,7 +29,7 @@
     <br/>
   <% else %>
     <% @deployments.each do |deployment| %>
-      <%= render(:partial => 'deployments/list_item', :locals => {:deployment => deployment}) %>
+      <%= render :partial => 'deployments/list_item', :locals => {:deployment => deployment} %>
     <% end %>
   <% end %>
 </fieldset>

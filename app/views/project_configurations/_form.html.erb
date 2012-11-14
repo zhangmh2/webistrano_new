@@ -1,0 +1,44 @@
+<% flashed_errors(:configuration) %>
+
+<table border="0" cellpadding="0" cellspacing="0">
+  <tr>
+    <td colspan="3">
+      Name
+    </td>
+  </tr>
+  <tr>
+    <td colspan="3">
+      <%= text_field 'configuration', 'name', :class => "text_field" %>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="3">
+      Value
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <% disabled = @configuration.prompt? ? {:disabled =>'disabled'} : {} %>
+      <%= text_field 'configuration', 'value', disabled.merge(:style =>'width: 330px') %>
+    </td>
+    <td style="padding:0px;">&nbsp;<b>or</b>&nbsp;</td>
+    <td valign="bottom">
+      <%= check_box 'configuration', 'prompt_on_deploy', :style => '' %>
+      Prompt for value on deployment
+    </td>
+  </tr>
+</table>
+
+<% content_for(:page_scripts) do %>
+<script type="text/javascript">
+  $(function() {
+    $('#configuration_prompt_on_deploy').on('change', function(ev) {
+      if ($(this).attr('checked')) {
+        $('#configuration_value').attr('disabled', 'disabled');
+      } else {
+        $('#configuration_value').removeAttr('disabled');
+      }
+    });
+  });
+</script>
+<% end %>

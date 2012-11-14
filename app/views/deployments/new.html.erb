@@ -1,0 +1,104 @@
+<% content_for(:breadcrumb) do %>
+  <% breadcrumb_box do %>
+    <%= link_to "Projects", projects_path %>
+    <span class="divider">&raquo;</span>
+    Project <%= link_to current_project.name, project_path(current_project) %>
+    <span class="divider">&raquo;</span>
+    Stage <%= link_to current_stage.name, project_stage_path(current_project, current_stage) %>
+    <span class="divider">&raquo;</span>
+    Deployment
+  <% end %>
+<% end %>
+
+<% content_for(:page_title) do %>
+  <% @page_title = "Deploy stage #{current_stage.name} of project #{current_project.name}" %>
+  <h2>Deployment</h2>
+<% end %>
+
+<% if current_stage.locked? %>
+  <% content_for(:flash_content) do %>
+    <%= locking_flash(render :partial => 'lock_info', :locals => {:stage => current_stage, :deployment => @deployment}) %>
+  <% end %>
+<% end %>
+
+<% flashed_errors(:deployment) %>
+
+<% content_for(:action_box) do %>
+  <div class="small_box">
+    <div class="small_box_top"></div>
+    <div class="small_box_middle" style="min-height: 140px; *height: 160px;">
+      <h3>Deploying hosts</h3>
+      <% if @stage.roles.count > 0 %>
+        <form name="excluded_hosts_form" id="excluded_hosts_form">
+          <table border="0" width="210">
+            <% for host in @stage.hosts.sort_by{|x| x.name} %>
+              <tr class="toggle_host <%= if_disabled_host?(host,'disabled_host') %> <%= if_enabled_host?(host,'enabled_host') %>" id="host_<%= host.id %>">
+                <td width="1%" style="padding:3px 0px 0px 0px;" valign="middle" align="center">
+                  <%= image_tag 'peritor_theme/checkbox_on.gif', 
+                                :id => "host_#{host.id}_on", 
+                                :style => if_disabled_host?(host,'display:none;') + 'cursor:pointer;' %>
+                  <%= image_tag 'peritor_theme/checkbox_off.gif', 
+                                :id => "host_#{host.id}_off", 
+                                :style => if_enabled_host?(host,'display:none;') + 'cursor:pointer;' %>
+                </td>
+                <td width="99%" title="<%= host.name %>" class="toggle_host" id="toggle_host_<%= host.id %>">
+                  <div style="overflow: hidden; padding-left: 5px; width: 180px; white-space: nowrap; cursor: pointer;"><%= host.name %></div>
+                </td>
+              </tr>
+            <% end %>
+          </table>
+        </form>
+      <% else %>
+        No hosts for this stage!<br /><br />
+      <% end %>
+    </div>
+    <div class="small_box_bottom"></div>
+  </div>
+<% end %>
+
+<div>
+  <%= form_for @deployment, :url => project_stage_deployments_path(@project, @stage) do |f| %>
+    <%= render :partial => 'form', :locals => {:form => f} %>
+    <div class="form-actions">
+      <%= f.submit :class => "btn btn-primary" %>
+      <%= link_to 'Back to stage', project_stage_path(@project, @stage), :class => 'arrow_link ontheright' %>
+    </div>
+  <% end %>
+</div>
+
+<% content_for(:page_scripts) do %>
+<script type="text/javascript">
+  function toggle_host() {
+    var host_id = /host_(\d+)/.exec(this.id)[1];
+    var checked = $('#deployment_excluded_host_ids_' + host_id).attr('checked');
+    if (checked == 'checked') {
+      enable_host(host_id);
+    }else{
+      disable_host(host_id);
+    }
+  }
+
+  function disable_host(host_id) {
+    var on = $("#host_" + host_id + "_on").hide();
+    var off = $("#host_" + host_id + "_off").show();
+
+    $('#deployment_excluded_host_ids_' + host_id).attr('checked', 'checked');
+    //on.up('tr').removeClassName('enabled_host');
+    //on.up('tr').addClassName('disabled_host');
+  }
+
+  function enable_host(host_id) {
+    var on = $("#host_" + host_id + "_on").hide();
+    var off = $("#host_" + host_id + "_off").show();
+
+    $('#deployment_excluded_host_ids_' + host_id).attr('checked', false);
+    //on.up('tr').addClassName('enabled_host');
+    //on.up('tr').removeClassName('disabled_host');
+  }
+
+  $(function() { 
+    $('tr.toggle_host').on('click', toggle_host);
+  });
+</script>
+<% end %>
+

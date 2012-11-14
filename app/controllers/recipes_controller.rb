@@ -13,7 +13,6 @@ class RecipesController < ApplicationController
   end
 
   # GET /recipes/1
-  # GET /recipes/1.xml
   def show
     find_recipe_with_version
 
@@ -36,7 +35,6 @@ class RecipesController < ApplicationController
   end
 
   # POST /recipes
-  # POST /recipes.xml
   def create
     @recipe = Recipe.new(params[:recipe] || {})
 
@@ -53,7 +51,6 @@ class RecipesController < ApplicationController
   end
 
   # PUT /recipes/1
-  # PUT /recipes/1.xml
   def update
     @recipe = Recipe.find(params[:id])
 
@@ -70,10 +67,9 @@ class RecipesController < ApplicationController
   end
 
   # DELETE /recipes/1
-  # DELETE /recipes/1.xml
   def destroy
     @recipe = Recipe.find(params[:id])
-    @recipe.delete_logically_with_asscociation
+    @recipe.destroy
     flash[:notice] = 'Recipe was successfully deleted.'
 
     respond_to do |format|

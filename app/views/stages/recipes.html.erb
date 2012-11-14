@@ -1,0 +1,47 @@
+<% content_for(:breadcrumb) do %>
+  <%= breadcrumb_box do %>
+    <%= link_to "Projects", projects_path %>
+    <span class="divider">&raquo;</span>
+    Project <%= link_to current_project.name, project_path(current_project) %>
+    <span class="divider">&raquo;</span>
+    Stage <%= link_to current_stage.name, project_stage_path(current_project, current_stage) %>
+    <span class="divider">&raquo;</span>
+    Recipes management
+  <% end %>
+<% end %>
+
+<% content_for(:page_title) do %>
+  <% @page_title = "Recipes management for stage: #{@stage.name}"%>
+  <h2>Recipes management</h2>
+<% end %>
+
+<%= form_for @stage, url: recipes_project_stage_path(@project, @stage), html: {method: :put} do |f| %>  
+  <fieldset class="fieldset">
+    <legend>Recipes to use</legend>
+    
+    <% if Recipe.count > 0 %>
+      <table class="sortable">
+        <tr>
+          <th width="1%">Use</th>
+          <th width="39%">Name</th>
+          <th width="60%">Description</th>
+        </tr>
+        <% for recipe in Recipe.find(:all, :order => 'name ASC') %>
+          <tr class="<%= cycle :even, :odd, :name => 'recipes'  %>">
+            <td><input type="checkbox" value="<%= recipe.id %>" name="stage[recipe_ids][]" id="stage_recipe_ids_<%= recipe.id %>" <%= @stage.recipes.include?(recipe) ? 'checked="checked"' : '' %>/></td>
+            <td><%= link_to recipe.name, recipe_path(recipe) %></td>
+            <td><%= recipe.description %></td>
+          </tr>
+        <% end %>
+      </table>
+      <div class="form-actions">
+        <%= f.submit class: "btn btn-primary" %>
+      </div>
+    <% else %>
+      No recipes present<br /><br />
+    <% end %>
+  </fieldset>    
+<% end %>
+
+<br />
+<%= link_to 'Back to stage', project_stage_path(current_project, current_stage), :class => 'arrow_link' %>

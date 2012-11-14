@@ -12,11 +12,11 @@
 <% end %>
 
 <div>
-  <%= form_for @recipe, html: {class: "form-horizontal"} do |f| %>
+  <%= form_for @recipe, :html => {:class => "form-horizontal"} do |f| %>
     <%= render partial: 'form', locals: {form: f} %>
     <div class="form-actions">
-      <%= f.submit class: "btn btn-primary" %>
-      <%= link_to 'Back to host', recipes_path, :class => 'arrow_link ontheright' %>
+      <%= f.submit :class => "btn btn-primary" %>
+      <%= link_to 'Back to recipe', recipes_path, :class => 'arrow_link ontheright' %>
     </div>
   <% end %>
 </div>

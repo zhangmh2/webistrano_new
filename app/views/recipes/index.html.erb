@@ -10,7 +10,7 @@
 <% end %>
 
 <fieldset class="fieldset">
-  <legend> <%= pluralize(Recipe.count, 'Recipe')%> listed</legend>
+  <legend> <%= pluralize Recipe.count, 'Recipe' %> listed</legend>
 
   <% if @recipes.empty? %>
     <br/>

@@ -12,10 +12,10 @@
 <% end %>
 
 <div>
-  <%= form_for @project, html: {class: "form-horizontal"} do |f| %>
-    <%= render partial: 'form', locals: {form: f} %>
+  <%= form_for @project, :html => {:class => "form-horizontal"} do |f| %>
+    <%= render :partial => 'form', :locals => {:form => f} %>
     <div class="form-actions">
-      <%= f.submit class: "btn btn-primary" %>
+      <%= f.submit :class => "btn btn-primary" %>
       <%= link_to 'Back to projects', projects_path, :class => 'arrow_link ontheright' %>
     </div>
   <% end %>

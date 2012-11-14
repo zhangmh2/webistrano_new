@@ -13,6 +13,8 @@ gem 'devise-encryptable'
 
 group :development do
   gem "sqlite3"
+  gem "thin"
+
   gem 'debugger'
   gem "pry"
   gem "pry-rails"
@@ -20,8 +22,8 @@ end
 
 group :test do
   gem "sqlite3"
-  gem "mocha"
 
+  gem "mocha"
   gem 'spork'
 end
 

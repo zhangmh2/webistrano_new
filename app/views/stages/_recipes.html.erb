@@ -1,0 +1,20 @@
+<% if @stage.recipes.empty? %>
+  <p>No recipes configured yet. Recipes are custom Capistrano tasks and variables that can be used across stages.</p>
+<% else %>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @stage.recipes.ordered.each do |recipe| %>
+        <tr>
+          <td><%= link_to recipe.name, recipe_path(recipe) %></td>
+          <td><%= recipe.description %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

@@ -1,0 +1,50 @@
+<% content_for :breadcrumb do %>
+  <%= breadcrumb_box do %>
+    <%= link_to "Users", users_path %>
+    <span class="divider">&raquo;</span>
+    <%= @user.login %>
+  <% end %>
+<% end %>
+
+<% content_for :page_title do %>
+  <% @page_title = "User #{@user.login}" %>
+  <h2>User <%= user_info(@user) %></h2>
+<% end %>
+
+<div>
+  <dl class="dl-horizontal">
+    <% if @user.admin? %>
+      <dt>User role:</dt>
+      <dd>Admin User</dd>
+    <% end %>
+
+    <dt>Login:</dt>
+    <dd><%= @user.login %></dd>
+
+    <dt>Email:</dt>
+    <dd><%= @user.email %></dd>
+
+    <dt>Timezone:</dt>
+    <dd><%= @user.time_zone.to_s %></dd>
+
+    <dt>Deployments:</dt>
+    <dd><%= @user.deployments.count %></dd>
+  </dl>
+
+  <div>
+    <% if current_user.admin? or current_user == @user %>
+      <%= link_to 'Edit & change password', [:edit, @user] %> |
+
+      <% if @user.disabled? %>
+        <%= link_to 'Enable', enable_user_path(@user), :data => {:confirm => 'Are you sure?'}, :method => :post %>
+      <% else %>
+        <%= link_to 'Disable', enable_user_path(@user), :data => {:confirm => 'Are you sure? Disabled users can no longer login.'}, :method => :post %>
+      <% end %>
+    <% end %>
+  </div>
+</div>
+
+<div>
+  <h2>Recent deployment history</h2>
+  <%= render :partial => 'deployments', :locals => {:deployments => @deployments, :user => @user} %>
+</div>
