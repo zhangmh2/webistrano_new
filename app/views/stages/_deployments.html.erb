@@ -1,7 +1,7 @@
 <% if @stage.deployments.empty? %>
   <p>This stage was never deployed.</p>
 <% else %>
-  <%= render :partial => 'deployments/list', :locals => {:deployments => @stage.deployments} %>
+  <%= render :partial => 'deployments/list_item', :locals => {:deployments => @stage.deployments} %>
 <% end %>
 <% if @stage.deployment_possible? %>
   <%= link_to 'New deployment', new_project_stage_deployment_path(current_project, @stage) %> <%= (@stage.deployments.count > 1) ? '|' : '' %>
