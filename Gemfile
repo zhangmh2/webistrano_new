@@ -26,7 +26,6 @@ group :test do
   gem "mocha", "0.12.7"
   gem "factory_girl_rails"
   gem "database_cleaner"
-  gem "debugger"
 end
 
 group :production do
@@ -35,6 +34,5 @@ group :production do
 end
 
 group :assets do
-  gem "compass-rails"
   gem "jquery-rails"
 end
