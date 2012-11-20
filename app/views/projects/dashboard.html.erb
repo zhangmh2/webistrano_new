@@ -1,3 +1,8 @@
+<% content_for(:page_title) do %>
+  <% @page_title = "Welcome to Webistrano" %>
+  <h2>Welcome to Webistrano</h2>
+<% end %>
+
 <fieldset class="fieldset">
   <legend>Introduction and help</legend>
   <div style="float: right; padding: 10px 5px 5px 5px;">
@@ -28,15 +33,7 @@
       No recent deployments.
     <br/>
   <% else %>
-    <% @deployments.each do |deployment| %>
-      <%= render :partial => 'deployments/list_item', :locals => {:deployment => deployment} %>
-    <% end %>
+    <%= render :partial => 'deployments/list_item', :locals => {:deployments => @deployments} %>
   <% end %>
 </fieldset>
 
-<br />
-
-<% content_for(:page_title) do %>
-  <% @page_title = "Welcome to Webistrano" %>
-  <h2>Welcome to Webistrano</h2>
-<% end %>

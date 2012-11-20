@@ -5,7 +5,7 @@ class Recipe < ActiveRecord::Base
   validates :body, :presence => true
   validate :check_syntax
 
-  attr_accessible :name, :body, :description
+  attr_accessible :name, :body, :description, :version
   
   scope :ordered, :order => "name ASC"
   

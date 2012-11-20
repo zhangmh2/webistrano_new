@@ -12,3 +12,4 @@ public/stylesheets/*.css
 *~
 .DS_Store
 *.tmproj
+.sass-cache

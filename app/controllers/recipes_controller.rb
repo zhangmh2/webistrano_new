@@ -94,7 +94,12 @@ private
 
     unless params[:version].blank?
       recipe_version = @recipe.find_version(params[:version])
-      @recipe.attributes = @recipe.find_version(params[:version]).attributes if recipe_version
+      if recipe_version
+        @recipe.version = recipe_version.version
+        @recipe.name = recipe_version.name
+        @recipe.description = recipe_version.description
+        @recipe.body = recipe_version.body
+      end
     end
 
     @recipe

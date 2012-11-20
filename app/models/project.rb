@@ -8,7 +8,7 @@ class Project < ActiveRecord::Base
   
   after_create :create_template_defaults
   
-  attr_accessible :name, :description, :template
+  attr_accessible :id, :name, :description, :template
   
   
   # returns a string with all custom tasks to be loaded by the Capistrano config
@@ -55,7 +55,8 @@ class Project < ActiveRecord::Base
       end
 
       stage.roles.each do |role|
-        new_stage.roles << Role.new(role.attributes)
+        newRole = Role.new(:name => role.name, :primary => role.primary, :host_id => role.host_id, :no_release => role.no_release, :no_symlink => role.no_symlink, :ssh_port => role.ssh_port, :custom_name => role.custom_name)
+        new_stage.roles << newRole
       end
     end
     

@@ -3,7 +3,5 @@
     This project was never deployed. 
   </p>
 <% else %>
-  <% @project.recent_deployments.each do |deployment| %>
-    <%= render :partial => 'deployments/list_item', :locals => {:deployment => deployment} %>
-  <% end %>
+  <%= render :partial => 'deployments/list_item', :locals => {:deployments => @project.recent_deployments} %>
 <% end %>
