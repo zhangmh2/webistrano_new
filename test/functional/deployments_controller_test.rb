@@ -75,7 +75,7 @@ class DeploymentsControllerTest < ActionController::TestCase
 
     # test that we need to enter this parameters
     post :create, :deployment => { :task => 'deploy:default', :description => 'update to newest', :prompt_config => {} }, :project_id => @project.id, :stage_id => @stage.id
-    assert_response :success
+    assert_response :redirect
     assert_equal 0, Deployment.count
 
     # now give the missing config
