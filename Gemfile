@@ -13,6 +13,7 @@ gem "devise-encryptable"
 
 group :development do
   gem "sqlite3"
+  gem "thin"
 
   gem "debugger"
   gem "pry"
