@@ -22,11 +22,38 @@
 </div>
 
 <div id="preview_fieldset">
-  <fieldset class="fieldset" style="width:560px;">
+  <fieldset class="fieldset">
     <legend><%= t("recipe.code_preview") %></legend>
     <div id="preview">
+      <%= render :partial => 'preview', :locals => {:recipe => @recipe} %>
     </div>
   </fieldset>
   <br/>
 </div>
 
+<% content_for(:page_scripts) do %>
+<script>
+  $(function() {
+    var recipe_body = $('#recipe_body');
+    var preview_output = $('#preview');
+
+    var getPreviewCode = function() {
+      $.ajax({
+        type: 'GET',
+        url: '/recipes/preview',
+        cache: false,
+        data: {
+          recipe: recipe_body.val()
+        },
+        dataType: 'html'
+      }).done(function(msg) {
+        preview_output.html(msg);
+      });
+    };
+
+    window.setInterval(function() {
+      getPreviewCode();
+    }, 1000);
+  });
+</script>
+<% end %>

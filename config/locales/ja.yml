@@ -180,6 +180,8 @@ ja:
     no_host: "ホストが設定されていません！"
     back_to: "ステージへ戻る"
     create: "デプロイ実行"
+    task_list: "タスクリスト"
+    all_task: "全てのタスク"
 
   users: "ユーザー管理"
   user:

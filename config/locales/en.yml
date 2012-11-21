@@ -178,6 +178,8 @@ en:
     no_host: "No hosts for this stage!"
     back_to: "Back to stage"
     create: "Create deployment"
+    task_list: "Task list"
+    all_task: "All tasks"
 
   users: "Users"
   user:

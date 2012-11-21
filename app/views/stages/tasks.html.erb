@@ -1,22 +1,22 @@
 <% content_for(:breadcrumb) do %>
   <%= breadcrumb_box do %>
-    <%= link_to "Projects", projects_path %>
+    <%= link_to t("projects"), projects_path %>
     <span class="divider">&raquo;</span>
-    Project <%= link_to current_project.name, project_path(current_project) %>
+    <%= t("project.title") %> <%= link_to current_project.name, project_path(current_project) %>
     <span class="divider">&raquo;</span>
-    Stage <%= link_to current_stage.name, project_stage_path(current_project, current_stage) %>
+    <%= t("stage.title") %> <%= link_to current_stage.name, project_stage_path(current_project, current_stage) %>
     <span class="divider">&raquo;</span>
-    Task list
+    <%= t("deployment.task_list") %>
   <% end %>
 <% end %>
 
 <% content_for(:page_title) do %>
-  <% @page_title = "Task list for stage: #{h @stage.name}"%>
-  <h2>Task list</h2>
+  <% @page_title = "#{t('deployment.task_list')} - #{ @stage.name}"%>
+  <h2><%= t("deployment.task_list") %></h2>
 <% end %>
 
 <fieldset class="fieldset">
-  <legend>All Tasks</legend>
+  <legend><%= t("deployment.all_task") %></legend>
   <table>
     <% @tasks.sort{|a, b| a[:name] <=> b[:name]}.each do |task| %>
       <tr>
@@ -29,5 +29,5 @@
 </fieldset>
 
 <br />
-<%= link_to 'Back to stage', project_stage_path(@project, @stage), :class => 'arrow_link'  %>
+<%= link_to t("deployment.back_to"), project_stage_path(@project, @stage), :class => 'arrow_link ontheright'  %>
 
