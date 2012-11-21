@@ -4,21 +4,21 @@
     <span class="divider">&raquo;</span>
     <%= @role.name %>
     <span class="divider">&raquo;</span>
-    Edit
+    <%= t("role.edit") %>
   <% end %>
 <% end %>
 
 <% content_for(:page_title) do %>
-  <% @page_title = "Edit role #{@role.name}" %>
-  <h2>Edit role <%= @role.name %></h2>
+  <% @page_title = "#{t('role.edit')} - #{@role.name}" %>
+  <h2><%= t("role.edit") %> <%= @role.name %></h2>
 <% end %>
 
 <div>
   <%= form_for @role, :url => project_stage_role_path(@project, @stage, @role), :html => {:class => "form-horizontal"} do |f| %>
     <%= render :partial => 'form', :locals => {:form => f} %>
     <div class="form-actions">
-      <%= f.submit :class => "btn btn-primary" %>
-      <%= link_to 'Back to stage', project_stage_path(@project, @stage), :class => 'btn ontheright' %>
+      <%= f.submit t("role.update"), :class => "btn btn-primary" %>
+      <%= link_to t("role.back_to"), project_stage_path(@project, @stage), :class => 'btn ontheright' %>
     </div>
   <% end %>
 </div>

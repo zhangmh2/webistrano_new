@@ -1,11 +1,11 @@
 <% if @stages.empty? %>
-  No deployments for this host.
+  <%= t("host.deployments_none") %>
 <% else %>
   <table class="sortable">
     <tr>
-      <th>Project</th>
-      <th>Stage</th>
-      <th>Role</th>
+      <th><%= t("project.title") %></th>
+      <th><%= t("stage.title") %></th>
+      <th><%= t("role.title") %></th>
     </tr>
     <% @stages.each do |stage| %>
       <tr class="<%= cycle :even, :odd, :name => 'stages' %>">

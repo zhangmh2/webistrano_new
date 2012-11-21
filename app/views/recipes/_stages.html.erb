@@ -1,12 +1,12 @@
 <% if @recipe.stages.empty? %>
-  <br/>
-  No stages are using this recipe.
-  <br/>
+  <p>
+    <%= t("recipe.used_by_stages_none") %>
+  </p>
 <% else %>
   <table class="sortable">
     <tr>
-      <th width="50%">Project</th>
-      <th width="50%">Stage</th>
+      <th width="50%"><%= t("project.title") %></th>
+      <th width="50%"><%= t("stage.title") %></th>
     </tr>
     <% @recipe.stages.each do |stage| %>
       <tr class="<%= cycle :even, :odd, :name => 'stages' %>">

@@ -1,6 +1,6 @@
 <% content_for(:page_title) do %>
-  <% @page_title = "Welcome to Webistrano" %>
-  <h2>Welcome to Webistrano</h2>
+  <% @page_title = t("welcome_webistrano") %>
+  <h2><%= t :welcome_webistrano %></h2>
 <% end %>
 
 <fieldset class="fieldset">
@@ -27,10 +27,10 @@
 <br />
 
 <fieldset class="fieldset">
-  <legend>Recent deployments</legend>
+  <legend><%= t("deployment.recent") %></legend>
   <% if @deployments.empty? %>
     <br/>
-      No recent deployments.
+    <%= t("deployment.no_recent") %>
     <br/>
   <% else %>
     <%= render :partial => 'deployments/list_item', :locals => {:deployments => @deployments} %>

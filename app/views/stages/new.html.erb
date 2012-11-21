@@ -1,16 +1,16 @@
 <% content_for(:breadcrumb) do %>
   <%= breadcrumb_box do %>
-    <%= link_to "Projects", projects_path %>
+    <%= link_to t("projects"), projects_path %>
     <span class="divider">&raquo;</span>
     <%= link_to @project.name, project_path(@project) %>
     <span class="divider">&raquo;</span>
-    New
+    <%= t("stage.new") %>
   <% end %>
 <% end %>
 
 <% content_for(:page_title) do %>
-  <% @page_title = "New stage for project #{@project.name}" %>
-  <h2>New stage</h2>
+  <% @page_title = "#{t('stage.new')} #{@project.name}" %>
+  <h2><%= t("stage.new") %></h2>
 <% end %>
 
 <% flashed_errors(:stage) %>
@@ -19,8 +19,8 @@
   <%= form_for @stage, :url => project_stages_path(@project), :html => {:class => "form-horizontal"} do |f| %>
     <%= render :partial => 'form', :locals => {:form => f} %>
     <div class="form-actions">
-      <%= f.submit :class => "btn btn-primary" %>
-      <%= link_to 'Back to project', project_path(@project), :class => 'arrow_link ontheright' %>
+      <%= f.submit t("stage.create"), :class => "btn btn-primary" %>
+      <%= link_to t("project.back_to"), project_path(@project), :class => 'arrow_link ontheright' %>
     </div>
   <% end %>
 </div>

@@ -1,24 +1,24 @@
 <% content_for(:breadcrumb) do %>
   <%= breadcrumb_box do %>
-    <%= link_to "Projects", projects_path %>
+    <%= link_to t("projects"), projects_path %>
     <span class="divider">&raquo;</span>
-    Project <%= link_to current_project.name, project_path(current_project) %>
+    <%= t("project.title") %> <%= link_to current_project.name, project_path(current_project) %>
     <span class="divider">&raquo;</span>
-    New
+    <%= t("project_configuration.new") %>
   <% end %>
 <% end %>
 
 <% content_for(:page_title) do %>
-  <% @page_title = "New configuration" %>
-  <h2>New configuration</h2>
+  <% @page_title = t("project_configuration.new") %>
+  <h2><%= t("project_configuration.new") %></h2>
 <% end %>
 
 <div>
   <%= form_for @configuration, :url => project_project_configurations_path(current_project) do |f| %>
-    <%= render :partial => 'form' %>
+    <%= render :partial => 'form', :locals => {:form => f} %>
     <div class="form-actions">
-      <%= f.submit :class => "btn btn-primary" %>
-      <%= link_to 'Back to project', project_path(current_project), :class => 'arrow_link ontheright' %>
+      <%= f.submit t("project_configuration.create"), :class => "btn btn-primary" %>
+      <%= link_to t("project.back_to"), project_path(current_project), :class => 'arrow_link ontheright' %>
     </div>
   <% end %>
 </div>

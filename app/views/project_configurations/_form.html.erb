@@ -1,33 +1,23 @@
 <% flashed_errors(:configuration) %>
 
-<table border="0" cellpadding="0" cellspacing="0">
-  <tr>
-    <td colspan="3">
-      Name
-    </td>
-  </tr>
-  <tr>
-    <td colspan="3">
-      <%= text_field 'configuration', 'name', :class => "text_field" %>
-    </td>
-  </tr>
-  <tr>
-    <td colspan="3">
-      Value
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <% disabled = @configuration.prompt? ? {:disabled =>'disabled'} : {} %>
-      <%= text_field 'configuration', 'value', disabled.merge(:style =>'width: 330px') %>
-    </td>
-    <td style="padding:0px;">&nbsp;<b>or</b>&nbsp;</td>
-    <td valign="bottom">
-      <%= check_box 'configuration', 'prompt_on_deploy', :style => '' %>
-      Prompt for value on deployment
-    </td>
-  </tr>
-</table>
+<div class="control-group">
+  <b><%= t("name") %></b>
+  <div class="controls">
+    <%= text_field 'configuration', 'name' %>
+  </div>
+</div>
+
+<div class="control-group">
+  <b><%= t("value") %></b>
+  <% disabled = @configuration.prompt? ? {:disabled =>'disabled'} : {} %>
+  <div class="controls">
+    <%= text_field 'configuration', 'value', disabled.merge(:style =>'width: 330px') %>
+    <p style="margin-top:5px">
+      <%= check_box 'configuration', 'prompt_on_deploy' %>
+      <%= t("project_configuration.prompt_under") %>
+    </p>
+  </div>
+</div>
 
 <% content_for(:page_scripts) do %>
 <script type="text/javascript">

@@ -1,5 +1,5 @@
 <div class="control-group">
-  <%= form.label :name, :class => "control-label" %>
+  <%= form.label t("stage.name"), :class => "control-label" %>
   <div class="controls">
     <%= form.text_field :name, :class => "text_field" %>
     (e.g. 'Prod', 'Test', 'Dev')
@@ -7,9 +7,9 @@
 </div>
 
 <div class="control-group">
-  <%= form.label :alert_emails, :class => "control-label" %>
+  <%= form.label t("stage.alert_emails"), :class => "control-label" %>
   <div class="controls">
     <%= form.text_field :alert_emails, :class => "text_field" %>
-    Alert these emails on deploy (separated by space)
+    <%= t("stage.alert_emails_under") %>
   </div>
 </div>

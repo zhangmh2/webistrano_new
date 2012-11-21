@@ -1,16 +1,16 @@
 <% content_for :breadcrumb do %>
   <%= breadcrumb_box do %>
-    <%= link_to "Hosts", hosts_path %>
+    <%= link_to t("hosts"), hosts_path %>
     <span class="divider">&raquo;</span>
     <%= link_to @host.name, @host %>
     <span class="divider">&raquo;</span>
-    Edit
+    <%= t("host.edit") %>
   <% end %>
 <% end %>
 
 <% content_for :page_title do %>
-  <% @page_title = "Edit host #{@host.name}" %>
-  <h2>Edit host <%= @host.name %></h2>
+  <% @page_title = "#{t('host.edit')} - #{@host.name}" %>
+  <h2><%= t("host.edit") %> <%= @host.name %></h2>
 <% end %>
 
 <% flashed_errors(:host) %>
@@ -19,8 +19,8 @@
 <%= form_for @host, :html => {:class => "form-horizontal"} do |f| %>
   <%= render :partial => 'form', :locals => {:form => f} %>
   <div class="form-actions">
-    <%= f.submit class: "btn btn-primary" %>
-    <%= link_to 'Back to host', hosts_path, :class => 'arrow_link ontheright' %>
+    <%= f.submit t("host.update"), class: "btn btn-primary" %>
+    <%= link_to t("host.back_to"), hosts_path, :class => 'arrow_link ontheright' %>
   </div>
 <% end %>
 </section>

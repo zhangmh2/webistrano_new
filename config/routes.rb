@@ -1,5 +1,8 @@
 Webistrano::Application.routes.draw do
   devise_for :users
+  devise_scope :user do
+    delete '/users/sign_out' => 'devise/sessions#destroy', as: :sign_out
+  end
 
   root :to => 'projects#dashboard'
 

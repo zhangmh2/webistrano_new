@@ -1,12 +1,12 @@
 <% content_for(:breadcrumb) do %>
   <%= breadcrumb_box do %>
-    Recipes
+    <%= t("recipes") %>
   <% end %>
 <% end %>
 
 <% content_for(:page_title) do %>
-  <% @page_title = "Recipes" %>
-  <h2>Recipes</h2>
+  <% @page_title = t("recipes") %>
+  <h2><%= t("recipes") %></h2>
 <% end %>
 
 <fieldset class="fieldset">
@@ -14,16 +14,18 @@
 
   <% if @recipes.empty? %>
     <br/>
-    No recipes configured yet.<br />
-    Recipes are custom Capistrano tasks and variables that can be used across stages.
+    <%= t("recipe.none") %><br />
+    <%= t("recipe.none_under") %>
     <br/>
   <% else %>
     <table class="sortable">
       <tr>
-        <th width="39%">Name</th>
-        <th width="59%">Description</th>
-        <th width="1%">#Stages</th>
-        <th width="1%">Created At</th>
+        <th width="39%"><%= t("recipe.name") %></th>
+        <th width="59%"><%= t("recipe.description") %></th>
+        <th width="1%"><%= t("recipe.stages") %></th>
+        <th width="1%"><%= t("created_at") %></th>
+        <th width="1%"></th>
+        <th width="1%"></th>
       </tr>
       <% for recipe in @recipes %>
         <tr class="<%= cycle :even, :odd, :name => 'recipes'  %>">
@@ -32,8 +34,8 @@
           <td><%= recipe.stages.count %></td>
           <td><%= recipe.created_at.to_s(:date_with_day) rescue nil %></td>
           <% if current_user.admin? %>
-            <td><%= link_to 'Edit', edit_recipe_path(recipe) %></td>
-            <td><%= link_to 'Delete', recipe_path(recipe), :confirm => 'Are you sure?', :method => :delete %></td>
+            <td class="nowrap"><%= link_to t("edit"), edit_recipe_path(recipe) %></td>
+            <td class="nowrap"><%= link_to t("delete"), recipe_path(recipe), :confirm => 'Are you sure?', :method => :delete %></td>
           <% end %>
         </tr>
       <% end %>
@@ -42,7 +44,7 @@
 
   <% if current_user.admin? %>
     <br />
-    <%= link_to 'New recipe', new_recipe_path, :class => 'arrow_link' %>
+    <%= link_to t("recipe.new"), new_recipe_path, :class => 'arrow_link' %>
   <% end %>
 </fieldset>
 

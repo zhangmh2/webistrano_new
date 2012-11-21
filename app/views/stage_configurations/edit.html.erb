@@ -1,19 +1,19 @@
 
 <% content_for(:breadcrumb) do %>
   <%= breadcrumb_box do %>
-    <%= link_to "Projects", projects_path %>
+    <%= link_to t("projects"), projects_path %>
     <span class="divider">&raquo;</span>
-    Project <%= link_to current_project.name, project_path(current_project) %>
+    <%= t("project.title") %> <%= link_to current_project.name, project_path(current_project) %>
     <span class="divider">&raquo;</span>
-    Stage <%= link_to current_stage.name, project_stage_path(current_project, current_stage) %>
+    <%= t("stage.title") %> <%= link_to current_stage.name, project_stage_path(current_project, current_stage) %>
     <span class="divider">&raquo;</span>
-    Edit
+    <%= t("stage_configuration.edit") %>
   <% end %>
 <% end %>
 
 <% content_for(:page_title) do %>
-  <% @page_title = "Edit configuration of stage #{current_stage.name}" %>
-  <h2>Edit configuration</h2>
+  <% @page_title = "#{t('stage_configuration.edit')} - #{current_stage.name}" %>
+  <h2><%= t("stage_configuration.edit") %></h2>
 <% end %>
 
 <% flashed_errors(:configuration) %>
@@ -22,8 +22,8 @@
   <%= form_for @configuration, :url => project_stage_stage_configuration_path(@project, @stage, @configuration), :html => {:method => :put} do |f| %>
     <%= render :partial => 'project_configurations/form', :locals => {:form => f} %>
     <div class="form-actions">
-      <%= f.submit :class => "btn btn-primary" %>
-      <%= link_to 'Back to stage', project_stage_path(@project, @stage), :class => 'arrow_link ontheright' %>
+      <%= f.submit t("stage_configuration.update"), :class => "btn btn-primary" %>
+      <%= link_to t("stage_configuration.back_to"), project_stage_path(@project, @stage), :class => 'arrow_link ontheright' %>
     </div>
   <% end %>
 </div>

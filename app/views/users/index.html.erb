@@ -1,28 +1,30 @@
 <% content_for :breadcrumb do %>
   <%= breadcrumb_box do %>
-    <%= link_to "Users", users_path %>
+    <%= link_to t("users"), users_path %>
   <% end %>
 <% end %>
 
 <% content_for :page_title do %>
-  <% @page_title = "Users" %>
-  <h2>Users</h2>
+  <% @page_title = t("users") %>
+  <h2><%= t("users") %></h2>
 <% end %>
 
-<div>
-  <h2> <%= pluralize User.count, 'User' %> listed</h2>
+<fieldset class="fieldset">
+  <legend><%= pluralize User.count, 'User' %> listed</legend>
 
   <% if @users.empty? %>
-    <p>No users added yet.</p>
+    <p><%= t("user.none") %></p>
   <% else %>
     <table class="sortable">
       <thead>
         <tr>
-          <th>Login</th>
-          <th>Email</th>
-          <th>Admin</th>
-          <th>Disabled</th>
-          <th>Created At</th>
+          <th><%= t("user.login") %></th>
+          <th><%= t("user.email") %></th>
+          <th><%= t("user.admin") %></th>
+          <th><%= t("user.disabled") %></th>
+          <th><%= t("created_at") %></th>
+          <th width="1%"></th>
+          <th width="1%"></th>
         </tr>
       </thead>
       <tbody>
@@ -38,10 +40,10 @@
             </td>
             <td><%= user.created_at.to_s(:date_with_day) %></td>
             <% if current_user.admin? || current_user == user %>
-              <td><%= link_to 'Edit', edit_user_path(user) %></td>
+              <td class="nowrap"><%= link_to t("edit"), edit_user_path(user) %></td>
             <% end %>
             <% if current_user.admin? %>
-              <td><%= link_to 'Delete', user_path(user), :data => {:confirm => 'Are you sure?'}, :method => :delete %></td>
+              <td class="nowrap"><%= link_to t("delete"), user_path(user), :data => {:confirm => 'Are you sure?'}, :method => :delete %></td>
             <% end %>
           </tr>
         <% end %>
@@ -51,6 +53,6 @@
 
   <br />
   <% if current_user.admin? %>
-    <%= link_to 'New user', new_user_path, :class => 'arrow_link' %>
+    <%= link_to t("user.new"), new_user_path, :class => 'arrow_link' %>
   <% end %>
-</div>
+</fieldset>

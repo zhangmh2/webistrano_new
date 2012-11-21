@@ -1,11 +1,11 @@
 <% if @stage.recipes.empty? %>
-  <p>No recipes configured yet. Recipes are custom Capistrano tasks and variables that can be used across stages.</p>
+  <p><%= t("stage.used_recipes_none") %></p>
 <% else %>
-  <table class="table table-striped">
+  <table class="sortable">
     <thead>
       <tr>
-        <th>Name</th>
-        <th>Description</th>
+        <th><%= t("recipe.name") %></th>
+        <th><%= t("recipe.description") %></th>
       </tr>
     </thead>
     <tbody>

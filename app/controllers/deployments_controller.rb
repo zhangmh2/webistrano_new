@@ -40,7 +40,11 @@ class DeploymentsController < ApplicationController
       respond_with(@deployment, :location => [@project, @stage, @deployment])
     else
       @deployment.clear_lock_error
-      respond_with(@deployment)
+      respond_to do |format|
+        flash[:error] = 'A deployment is currently not possible.'
+        format.html { redirect_to new_project_stage_deployment_path(@project, @stage, @deployment) }
+        false
+      end
     end
   end
 

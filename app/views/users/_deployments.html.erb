@@ -1,5 +1,5 @@
 <% if @deployments.empty? %>
-  <p>This user has never deployed any stages.</p>
+  <p><%= t("user.deployments_none") %></p>
 <% else %>
   <%= render :partial => 'deployments/list', :locals => {:deployments => @deployments} %>
   <% if @deployments.size != @user.deployments.count %>

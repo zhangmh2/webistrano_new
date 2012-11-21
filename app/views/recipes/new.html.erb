@@ -1,22 +1,22 @@
 <% content_for(:breadcrumb) do %>
   <%= breadcrumb_box do %>
-    <%= link_to "Recipes", recipes_path %>
+    <%= link_to t("recipes"), recipes_path %>
     <span class="divider">&raquo;</span>
-    New
+    <%= t("recipe.new") %>
   <% end %>
 <% end %>
 
 <% content_for(:page_title) do %>
-  <% @page_title = "New recipe" %>
-  <h2>New recipe</h2>
+  <% @page_title = t("recipe.new") %>
+  <h2><%= t("recipe.new") %></h2>
 <% end %>
 
 <div>
   <%= form_for @recipe, :html => {:class => "form-horizontal"} do |f| %>
     <%= render partial: 'form', locals: {form: f} %>
     <div class="form-actions">
-      <%= f.submit :class => "btn btn-primary" %>
-      <%= link_to 'Back to recipe', recipes_path, :class => 'arrow_link ontheright' %>
+      <%= f.submit t("recipe.create"), :class => "btn btn-primary" %>
+      <%= link_to t("recipe.back_to"), recipes_path, :class => 'arrow_link ontheright' %>
     </div>
   <% end %>
 </div>

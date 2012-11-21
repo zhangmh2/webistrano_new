@@ -1,13 +1,15 @@
 <% if @stage.configuration_parameters.empty? %>
-  <p>No stage specific configuration added yet. Stage specific configuration entries override project configuration entries. Typical examples are a different repository path (e.g. trunk) or a different Rails environment.</p>
-  <p>Please add configuration entries.</p>
+  <p><%= t("stage.configuration_line1") %></p>
+  <p><%= t("stage.configuration_line2") %></p>
 <% else %>
-  <table class="table table-striped">
+  <table class="sortable">
     <thead>
       <tr>
-        <th>Name</th>
-        <th>Value</th>
-        <th>Prompt?</th>
+        <th width="25%"><%= t("name") %></th>
+        <th width="25%"><%= t("value") %></th>
+        <th width="25%"><%= t("stage_configuration.prompt") %></th>
+        <th width="1%"></th>
+        <th width="1%"></th>
       </tr>
     </thead>
     <tbody>
@@ -15,9 +17,9 @@
         <tr>
           <td><%= truncate config.name, :length => 25 %></td>
           <td><%= truncate hide_password_in_value(config), :length => 45 %></td>
-          <td><%= config.prompt_status_in_html %></td>
-          <td><%= link_to 'Edit', edit_project_stage_stage_configuration_path(@project, @stage, config) %></td>
-          <td><%= link_to 'Delete', project_stage_stage_configuration_path(@project, @stage, config), :data => {:confirm => 'Are you sure?'}, :method => :delete %></td>
+          <td><%= raw config.prompt_status_in_html %></td>
+          <td class="nowrap"><%= link_to t("edit"), edit_project_stage_stage_configuration_path(@project, @stage, config) %></td>
+          <td class="nowrap"><%= link_to t("delete"), project_stage_stage_configuration_path(@project, @stage, config), :data => {:confirm => 'Are you sure?'}, :method => :delete %></td>
         </tr>
       <% end %>
     </tbody>

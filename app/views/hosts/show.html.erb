@@ -1,34 +1,34 @@
 <% content_for(:breadcrumb) do %>
   <% breadcrumb_box do %>
-    <%= link_to "Hosts", hosts_path %> &gt; 
-    Host <%= link_to @host.name, host_path(@host) %> 
+    <%= link_to t("hosts"), hosts_path %> &gt; 
+    <%= t("host.title") %> <%= link_to @host.name, host_path(@host) %> 
   <% end %>
 <% end %>
 
 <% content_for(:page_title) do %>
-  <% @page_title = "Host #{@host.name}" %>
-  <h2>Host <%= @host.name %></h2>
+  <% @page_title = "#{t('host.title')} #{@host.name}" %>
+  <h2><%= t("host.title") %> <%= @host.name %></h2>
 <% end %>
 
 <div class="box">
   <div class="box_top"></div>
   <div class="box_middle">
-    <p>
-      <b>Name:</b>
-      <%= @host.name %>
-    </p>
-    <p>
-      <b>#Stages:</b>
-      <%= @host.stages.uniq.size %>
-    </p>
-    <p>
-      <b>#Roles:</b>
-      <%= @host.roles.count %>
-    </p>
+    <div>
+      <b><%= t("host.name2") %></b>
+      <p><%= @host.name %></p>
+    </div>
+    <div>
+      <b><%= t("host.stages") %></b>
+      <p><%= @host.stages.uniq.size %></p>
+    </div>
+    <div>
+      <b><%= t("host.roles") %></b>
+      <p><%= @host.roles.count %></p>
+    </div>
     <% if current_user.admin? %>
       <br />
-      <%= link_to 'Edit Host', edit_host_path(@host), :class => 'arrow_link' %> | 
-      <%= link_to 'Delete', host_path(@host), :confirm => 'Are you sure?', :method => :delete, :class => 'arrow_link'  %>
+      <%= link_to t("edit"), edit_host_path(@host), :class => 'arrow_link' %> | 
+      <%= link_to t("delete"), host_path(@host), :confirm => 'Are you sure?', :method => :delete, :class => 'arrow_link'  %>
     <% end %>
   </div>
   <div class="box_bottom"></div>
@@ -38,6 +38,6 @@
 <br>
 
 <fieldset class="fieldset">
-  <legend>Stages</legend>
+  <legend><%= t("stages") %></legend>
   <%= render :partial => 'stages' %>
 </fieldset>

@@ -1,12 +1,12 @@
 <div class="control-group">
-  <%= form.label "Task", :class => "control-label" %>
+  <%= form.label t("deployment.task"), :class => "control-label" %>
   <div class="controls">
     <%= form.text_field :task, :style => 'width:330px;' %>
   </div>
 </div>
 
 <div class="control-group">
-  <%= form.label "Comment", :class => "control-label" %>
+  <%= form.label t("deployment.comment"), :class => "control-label" %>
   <div class="controls">
     <%= form.text_area :description, :style => "width:330px;height:80px;" %>
   </div>
@@ -15,7 +15,7 @@
 <div class="control-group">
   <% unless @stage.prompt_configurations.empty? %>
     <% @stage.prompt_configurations.each do |config| %>
-      <%= form.label "Config: #{config.name}", :class => "control-label" %>
+      <%= form.label "#{t('deployment.config')}: #{config.name}", :class => "control-label" %>
       <div class="controls">
         <input type="<%= input_type(config.name) %>" id="deployment_prompt_config_<%= config.name %>" name="deployment[prompt_config][<%= config.name %>]" style="width:330px;" value="<%= @deployment.prompt_config[config.name.to_sym] %>" />
       </div>

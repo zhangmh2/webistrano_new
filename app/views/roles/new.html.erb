@@ -4,21 +4,21 @@
     <span class="divider">&raquo;</span>
     <%= link_to @stage.name, project_stage_path(@project, @stage) %>
     <span class="divider">&raquo;</span>
-    New role
+    <%= t("role.new") %>
   <% end %>
 <% end %>
 
 <% content_for(:page_title) do %>
-  <% @page_title = "New host for #{@stage.name}" %>
-  <h2>New role for <%= @stage.name %></h2>
+  <% @page_title = "#{t('role.new')} - #{@stage.name}" %>
+  <h2><%= t("role.new") %> - <%= @stage.name %></h2>
 <% end %>
 
 <div>
   <%= form_for @role, :url => project_stage_roles_path(current_project, current_stage), :html => {:class => "form-horizontal"} do |f| %>
     <%= render :partial => 'form', :locals => {:form => f} %>
     <div class="form-actions">
-      <%= f.submit :class => "btn btn-primary" %>
-      <%= link_to 'Back to stage', project_stage_path(@project, @stage), :class => 'btn ontheright' %>
+      <%= f.submit t("role.create"), :class => "btn btn-primary" %>
+      <%= link_to t("role.back_to"), project_stage_path(@project, @stage), :class => 'btn ontheright' %>
     </div>
   <% end %>
 </div>
