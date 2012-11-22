@@ -29,7 +29,9 @@ class DeploymentsControllerTest < ActionController::TestCase
     Deployment.delete_all
     assert @stage.deployment_possible?
 
-    post :create, :deployment => { :task => 'deploy:default', :description => 'update to newest' }, :project_id => @project.id, :stage_id => @stage.id
+    host_ids = @stage.hosts.map { |h| h.id.to_i }
+
+    post :create, :deployment => { :host_ids => host_ids, :task => 'deploy:default', :description => 'update to newest' }, :project_id => @project.id, :stage_id => @stage.id
     assert_equal 1, Deployment.count
     assert_equal @user, Deployment.find(:all).last.user
 
@@ -73,13 +75,15 @@ class DeploymentsControllerTest < ActionController::TestCase
     # check that we get asked for the password
     assert_match /password/, @response.body
 
+    host_ids = @stage.hosts.map { |h| h.id.to_i }
+
     # test that we need to enter this parameters
-    post :create, :deployment => { :task => 'deploy:default', :description => 'update to newest', :prompt_config => {} }, :project_id => @project.id, :stage_id => @stage.id
+    post :create, :deployment => { :host_ids => host_ids, :task => 'deploy:default', :description => 'update to newest', :prompt_config => {} }, :project_id => @project.id, :stage_id => @stage.id
     assert_response :redirect
     assert_equal 0, Deployment.count
 
     # now give the missing config
-    post :create, :deployment => { :task => 'deploy:default', :description => 'update to newest', :prompt_config => {:password => 'abc'} }, :project_id => @project.id, :stage_id => @stage.id
+    post :create, :deployment => { :host_ids => host_ids, :task => 'deploy:default', :description => 'update to newest', :prompt_config => {:password => 'abc'} }, :project_id => @project.id, :stage_id => @stage.id
     assert_response :redirect
     assert_equal 1, Deployment.count
   end
@@ -88,10 +92,11 @@ class DeploymentsControllerTest < ActionController::TestCase
     Deployment.delete_all
     host_down = FactoryGirl.create(:host)
     down_role = FactoryGirl.create(:role, :stage => @stage, :name => 'foo', :host => host_down)
+    host_ids = @stage.hosts.map { |h| h.id.to_i } - [host_down.id]
 
     assert_equal 2, @stage.roles.count
 
-    post :create, :deployment => { :excluded_host_ids => [host_down.id],:task => 'deploy:default', :description => 'update to newest', :prompt_config => {} }, :project_id => @project.id, :stage_id => @stage.id
+    post :create, :deployment => { :host_ids => host_ids, :task => 'deploy:default', :description => 'update to newest', :prompt_config => {} }, :project_id => @project.id, :stage_id => @stage.id
 
     assert_equal 1, Deployment.count
     deployment = Deployment.find(:first)
@@ -103,7 +108,9 @@ class DeploymentsControllerTest < ActionController::TestCase
     Deployment.delete_all
     host_down = FactoryGirl.create(:host)
     down_role = FactoryGirl.create(:role, :stage => @stage, :name => 'foo', :host => host_down)
-    post :create, :deployment => { :task => 'deploy:default', :description => 'update to newest', :prompt_config => {} }, :project_id => @project.id, :stage_id => @stage.id
+    host_ids = @stage.hosts.map { |h| h.id.to_i } - [host_down.id]
+
+    post :create, :deployment => { :host_ids => host_ids, :task => 'deploy:default', :description => 'update to newest', :prompt_config => {} }, :project_id => @project.id, :stage_id => @stage.id
     get :latest, :project_id => @project.id, :stage_id => @stage.id
     assert_response :redirect
     assert_equal "deploy:default", assigns(:deployment).task
