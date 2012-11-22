@@ -2,14 +2,14 @@
 Gemfile.lock
 vendor/bundler
 
-tmp/**/*
-log/*
+tmp/*
+log/*.log
+db/*.sqlite3
 config/*.yml
 config/webistrano_config.rb
-db/*.sqlite3
-public/stylesheets/*.css
 
 *~
 .DS_Store
-*.tmproj
-.sass-cache
+Thumbs.db
+
+.*.sw[a-z]
