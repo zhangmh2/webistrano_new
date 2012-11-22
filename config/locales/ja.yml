@@ -183,6 +183,16 @@ ja:
     create: "デプロイ実行"
     task_list: "タスクリスト"
     all_task: "全てのタスク"
+    status: "ステータス"
+    deployed_by: "デプロイした人"
+    revision: "リビジョン"
+    started: "開始時間"
+    time: "時間"
+    completed: "完了"
+    log: "ログ"
+    result: "結果"
+    repeat: "もう1回"
+    cancel: "キャンセル"
 
   users: "ユーザー管理"
   user:

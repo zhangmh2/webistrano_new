@@ -181,6 +181,16 @@ en:
     create: "Create deployment"
     task_list: "Task list"
     all_task: "All tasks"
+    status: "Status"
+    deployed_by: "Deployed by"
+    revision: "Revision"
+    started: "Started"
+    time: "Time"
+    completed: "Completed"
+    log: "Log"
+    result: "Result"
+    repeat: "Repeat"
+    cancel: "Cancel"
 
   users: "Users"
   user:

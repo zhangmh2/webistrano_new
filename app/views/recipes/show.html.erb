@@ -41,9 +41,8 @@
 
 <fieldset class="fieldset" style="width: 212px; margin-left: 28px; float: right;">
   <legend><%= t("recipe.description") %></legend>
-  <p>
-    <%= web_friendly_text @recipe.description %>
-  </p>
+  <p><%= raw web_friendly_text @recipe.description %></p>
+  <br />
   <%= link_to t("edit"), edit_recipe_path(@recipe), :class => 'arrow_link' %>
 </fieldset>
 

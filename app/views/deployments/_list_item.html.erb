@@ -1,15 +1,15 @@
-<table class="table table-striped">
+<table class="sortable">
   <thead>
     <tr>
-      <th>Result</th>
-      <th>Project</th>
-      <th>Stage</th>
-      <th>Task</th>
-      <th>Rev</th>
-      <th>User</th>
-      <th>Started</th>
-      <th>Time</th>
-      <th>Comment</th>
+      <th><%= t("deployment.result") %></th>
+      <th><%= t("project.title") %></th>
+      <th><%= t("stage.title") %></th>
+      <th><%= t("deployment.task") %></th>
+      <th><%= t("deployment.revision") %></th>
+      <th><%= t("deployment.deployed_by") %></th>
+      <th><%= t("deployment.started") %></th>
+      <th><%= t("deployment.time") %></th>
+      <th><%= t("deployment.comment") %></th>
     </tr>
   </thead>
   <tbody>
@@ -27,7 +27,7 @@
         <td><%= distance_of_time_in_words(deployment.created_at, deployment.completed_at, true) rescue "" %></td>
         <td><%= deployment.description %></td>
       </tr>
-    <% end -%>
+    <% end %>
   </tbody>
 </table>
 

@@ -40,7 +40,7 @@
     var getPreviewCode = function() {
       $.ajax({
         type: 'GET',
-        url: '/recipes/preview',
+        url: "<%= preview_recipes_url %>",
         cache: false,
         data: {
           recipe: recipe_body.val()
