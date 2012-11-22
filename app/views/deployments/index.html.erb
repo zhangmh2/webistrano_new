@@ -2,37 +2,30 @@
   <% breadcrumb_box do %>
     <%= link_to "Projects", projects_path %>
     <span class="devider">&raquo;</span>
-    Project <%= link_to current_project.name, project_path(current_project) %>
+    <%= t("project.title") %> <%= link_to current_project.name, project_path(current_project) %>
     <span class="devider">&raquo;</span>
-    Stage <%= link_to current_stage.name, project_stage_path(current_project, current_stage) %>
+    <%= t("stage.title") %> <%= link_to current_stage.name, project_stage_path(current_project, current_stage) %>
     <span class="devider">&raquo;</span>
-    Deployments
+    <%= t("deployments") %>
   <% end %>
 <% end %>
 
 <% content_for(:page_title) do %>
   <% @page_title = "Deployment history: Project #{current_project.name} - Stage #{current_stage.name} " %>
-  <h2>Deployment history of <%= link_to current_stage.name, project_stage_path(current_project, current_stage) %></h2>
+  <h2><%= t("deployments") %> - <%= link_to current_stage.name, project_stage_path(current_project, current_stage) %></h2>
 <% end %>
-
 
 <fieldset class="fieldset">
-  <legend>Complete Deployment history</legend>
+  <legend><%= t("deployment.complete_history") %></legend>
   
-<% if @stage.deployments.empty? %>
-  <br/>
-    This stage was never deployed. 
-  <br/>
-<% else %>
-  <% @stage.deployments.each do |deployment| %>
-    <%= render :partial => 'deployments/list_item', :locals => {:deployment => deployment} %>
+  <% if @stage.deployments.empty? %>
+    <p><%= t("stage.recent_deployment_none") %></p>
+  <% else %>
+    <%= render :partial => 'deployments/list_item', :locals => {:deployments => @stage.deployments} %>
   <% end %>
-<% end %>
-<br />
-
 </fieldset>
 
 <br />
 
-<%= link_to "Back", project_stage_path(current_project, current_stage), :class => 'arrow_link' %>
+<%= link_to t("deployment.back_to"), project_stage_path(current_project, current_stage), :class => 'arrow_link' %>
 

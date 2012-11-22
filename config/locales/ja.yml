@@ -160,6 +160,7 @@ ja:
     used_by_stages: "使用しているステージ"
     used_by_stages_none: "このレシピを使用しているステージはありません."
 
+  deployments: "デプロイ"
   deployment:
     title: "デプロイ"
     task: "タスク名"
@@ -169,7 +170,7 @@ ja:
     no_recent: "最近のデプロイはありません."
     never: "このプロジェクトは、まだデプロイされたことがありません."
     new: "デプロイする"
-    complete_history: "すべての履歴を見る"
+    complete_history: "すべてのデプロイ履歴"
     deploy: "デプロイ"
     deploy_and_migrate: "デプロイとマイグレーション"
     restart_app_servers: "アプリケーションサーバ再起動"

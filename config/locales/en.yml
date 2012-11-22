@@ -158,6 +158,7 @@ en:
     used_by_stages: "Used by stages"
     used_by_stages_none: "No stages are using this recipe."
 
+  deployments: "Deployments"
   deployment:
     title: "Deployment"
     task: "Task"

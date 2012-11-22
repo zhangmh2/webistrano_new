@@ -8,7 +8,7 @@ class Deployment < ActiveRecord::Base
   STATUS_VALUES   = [STATUS_SUCCESS, STATUS_FAILED, STATUS_CANCELED, STATUS_RUNNING]
 
   scope :recent, proc { |*args|
-    max = args.first || 3
+    max = args.first || 5
     order('deployments.created_at DESC').limit(max)
   }
 
