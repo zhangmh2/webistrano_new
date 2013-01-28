@@ -66,7 +66,6 @@
 </fieldset>
 
 <br />
-
 <%= link_to t("deployment.back_to"), project_stage_path(@project, @stage), :class => 'arrow_link ontheright', :id => 'back_link_at_the_bottom' %>
 
 <% unless @deployment.completed? %>
@@ -78,10 +77,70 @@
         dataType: "html",
         success: function(res) {
           $('#status_info').html(res);
+
+<table width="100%">
+  <tr>
+    <td width="">
+      <%= link_to_function 'Scroll to top', "scroll_to_top()", :class => 'arrow_link' %> | <%= link_to 'Back to stage', project_stage_path(@project, @stage), :class => 'arrow_link', :id => 'back_link_at_the_bottom' %>
+    </td>
+    <td align="right" width="120px">
+      <%= image_tag('peritor_theme/status_' + @deployment.status + '_small.gif', :title => @deployment.status, :width => 20, :heigth => 15, :style => 'vertical-align:middle;') %>
+      <b>Status:</b> <%=h @deployment.status %>
+    </td>
+    <td align="right" width="70px">
+      <% if @deployment.completed? %>
+      &nbsp; &nbsp;
+      <%= link_to "Repeat", new_project_stage_deployment_path(current_project, current_stage) + '?repeat=' + h(@deployment.id), :class => 'arrow_link'  %>
+      <% end %>
+      <% if @deployment.cancelling_possible? %>
+        &nbsp; &nbsp;
+        <%= link_to "Cancel", cancel_project_stage_deployment_path(current_project, current_stage, @deployment), :confirm => "Are you sure? Killing this deployment will not cleanup and rollback.", :method => "post", :class => 'arrow_link' %>
+      <% end %>
+    </td>
+  </tr>
+</table>
+
+
+
+<% unless @deployment.completed? and @deployment.completed_at < 1.minute.ago %>
+  <script type="text/javascript">
+    (function() {
+      var opts, noti;
+      // icon & iconUrl both provided for different versions of the draft standard
+      opts = {
+        title:    '<%=@project.name%>/<%=@deployment.stage.name%>: <%=@deployment.task%>',
+        body:     'Status: <%=@deployment.status%>',
+        iconUrl:  '<%=image_path("peritor_theme/status_#{@deployment.status}.gif")%>',
+        icon:     '<%=image_path("peritor_theme/status_#{@deployment.status}.gif")%>',
+        tag:      '<%=@project.id%>-<%=@deployment.stage.id%>-<%=@deployment.id%>',
+        titleDir: 'auto',
+        bodyDir:  'auto'
+      }
+      if( this.Notification ) {
+        noti = new this.Notification(opts['title'], opts )
+        noti.onshow = function() { setTimeout(noti.close, 15000) }
+        noti.show()
+      } else {
+        console.log('no Notification API available')
+      }
+    }).call(this);
+  </script>
+<% end %>
+
+<% unless @deployment.completed? %>
+  <script type="text/javascript">
+
+    function update_status(){
+      new Ajax.Updater('status_info','<%=h project_stage_deployment_path(@project, @stage, @deployment) %>.js',{
+        method: 'get',
+        evalScripts: true,
+        parameters: {
+          random_differentiator: Math.floor(Math.random()*50000), // work around IE caching bug
+          auto_scroll: $('auto_scroll_log').checked
         }
       });
     }
-
-    setTimeout(update_status, 5000);
+    setTimeout(update_status, 3000);
+    check_auto_scroll_log();
   </script>
 <% end %>
