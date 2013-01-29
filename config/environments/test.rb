@@ -34,4 +34,7 @@ Webistrano::Application.configure do
 
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :stderr
+
+  # We run test only with en locale
+  config.i18n.default_locale = :en
 end

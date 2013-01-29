@@ -5,6 +5,7 @@ require "mocha/setup"
 
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
+
 require 'database_cleaner'
 DatabaseCleaner.strategy = :truncation
 DatabaseCleaner.clean_with(:truncation)

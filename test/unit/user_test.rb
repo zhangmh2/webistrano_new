@@ -51,7 +51,7 @@ class UserTest < ActiveSupport::TestCase
     end
 
     assert_equal 5, user.deployments.count
-    assert_equal 3, user.deployments.recent.length
+    assert_equal 5, user.deployments.recent.length
     assert_equal 2, user.deployments.recent(2).length
   end
 
