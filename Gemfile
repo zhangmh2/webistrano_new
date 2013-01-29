@@ -35,4 +35,5 @@ end
 
 group :assets do
   gem "jquery-rails"
+  gem "uglifier"
 end
