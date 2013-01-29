@@ -1,6 +1,6 @@
 .bundle
 Gemfile.lock
-vendor/bundler
+vendor/bundle
 
 tmp/*
 log/*.log

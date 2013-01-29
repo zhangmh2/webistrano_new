@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-gem "rails", "3.2.9"
+gem "rails", git: "git://github.com/rails/rails.git", branch: "3-2-stable"
 
 gem "exception_notification"
 
@@ -23,7 +23,7 @@ end
 group :test do
   gem "sqlite3"
   gem "test-unit"
-  gem "mocha", "0.12.7"
+  gem "mocha", :require => false
   gem "factory_girl_rails"
   gem "database_cleaner"
 end

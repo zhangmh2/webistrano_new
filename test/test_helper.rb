@@ -1,4 +1,8 @@
 ENV["RAILS_ENV"] = "test"
+
+require "test/unit"
+require "mocha/setup"
+
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
 require 'database_cleaner'
