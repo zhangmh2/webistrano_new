@@ -38,3 +38,7 @@ group :assets do
   gem "uglifier"
   gem 'therubyracer'
 end
+
+if File.exists?('config/Gemfile.extras')
+  eval File.read('config/Gemfile.extras')
+end
