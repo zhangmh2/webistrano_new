@@ -41,7 +41,7 @@
 
     > ruby script/server -d -p 3000 -e production
   
-    Webistrano is then available at http://host:3000/
+    Webistrano is then available at http://localhost:3000/
   
     The default user is `admin`, the password is `admin!`. Please change the password
     after the first login.
