@@ -26,16 +26,19 @@
     Then create the database structure with Rake:
   
     > cd webistrano
+
     > RAILS_ENV=production rake db:migrate
   
   3. Data initialization
 
     > cd webistrano
+
     > RAILS_ENV=production rake db:seed
 
   4. Start Webistrano  
   
     > cd webistrano
+
     > ruby script/server -d -p 3000 -e production
   
     Webistrano is then available at http://host:3000/
