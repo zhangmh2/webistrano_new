@@ -22,10 +22,10 @@ end
 
 group :test do
   gem "sqlite3"
-  gem "test-unit"
   gem "mocha", :require => false
   gem "factory_girl_rails"
   gem "database_cleaner"
+  gem 'minitest-reporters'
 end
 
 group :production do
