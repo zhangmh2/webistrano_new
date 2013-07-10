@@ -10,9 +10,9 @@ gem "syntax"
 gem "version_fu", :github => "jmckible/version_fu"
 gem "devise"
 gem "devise-encryptable"
+gem "pg"
 
 group :development do
-  gem "sqlite3"
   gem "thin"
 
   gem "debugger"
@@ -21,7 +21,6 @@ group :development do
 end
 
 group :test do
-  gem "sqlite3"
   gem "mocha", :require => false
   gem "factory_girl_rails"
   gem "database_cleaner"
@@ -29,7 +28,6 @@ group :test do
 end
 
 group :production do
-  gem "mysql2"
   gem "unicorn"
 end
 

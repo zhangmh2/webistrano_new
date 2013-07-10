@@ -112,7 +112,6 @@ ActiveRecord::Schema.define(:version => 20110113085919) do
 
   create_table "users", :force => true do |t|
     t.string   "login"
-    t.boolean  "admin",                  :default => false
     t.string   "time_zone",              :default => "UTC"
     t.datetime "disabled_at"
     t.string   "email",                  :default => "",    :null => false
@@ -127,6 +126,7 @@ ActiveRecord::Schema.define(:version => 20110113085919) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at",                                :null => false
     t.datetime "updated_at",                                :null => false
+    t.boolean  "admin",                  :default => false
   end
 
   add_index "users", ["disabled_at"], :name => "index_users_on_disabled_at"
