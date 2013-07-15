@@ -382,7 +382,6 @@ class Webistrano::DeployerTest < ActiveSupport::TestCase
   end
 
   test "config_logger_and_real_revision_are_set" do
-    skip 'pending.'
     # prepare the stage by creating a nearly blank config
     @project.configuration_parameters.delete_all
     @stage.configuration_parameters.delete_all
@@ -424,9 +423,10 @@ class Webistrano::DeployerTest < ActiveSupport::TestCase
         if x == :logger
           (y.is_a? Webistrano::Logger)
         else
-          [:password, :application, :repository, :real_revision, :webistrano_stage, :webistrano_project].include?(x)
+          [:password, :application, :repository, :real_revision, :webistrano_stage, :webistrano_project,
+           :webistrano_user, :webistrano_comment].include?(x)
         end
-      end.times(7)
+      end.times(9)
     end
 
     # main mock install
