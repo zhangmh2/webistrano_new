@@ -34,7 +34,6 @@ class Webistrano::DeployerTest < ActiveSupport::TestCase
   end
 
   test "setting_of_configuration_parameters_on_capistrano_configuration" do
-    skip 'pending.'
     # create some configuration entries for the stage
     config = @stage.configuration_parameters.build(:name => 'stage_specific', :value => 'xxxxx'); config.save!
     config = @stage.configuration_parameters.build(:name => 'stage_specific2', :value => 'testapp'); config.save!
@@ -66,6 +65,8 @@ class Webistrano::DeployerTest < ActiveSupport::TestCase
     mock_cap_config.expects(:set).with(:password, nil) # default by Cap
     mock_cap_config.expects(:set).with(:webistrano_project, @project.webistrano_project_name)
     mock_cap_config.expects(:set).with(:webistrano_stage, @stage.webistrano_stage_name)
+    mock_cap_config.expects(:set).with(:webistrano_user, anything)
+    mock_cap_config.expects(:set).with(:webistrano_comment, @deployment.description)
 
     # now we expect our Vars to be set
     # project vars
