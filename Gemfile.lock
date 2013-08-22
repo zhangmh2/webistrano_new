@@ -1,5 +1,5 @@
 GIT
-  remote: git://github.com/jmckible/version_fu.git
+  remote: https://github.com/jmckible/version_fu.git
   revision: d4b5aa064970415493fca349bc2a272e80bad7aa
   specs:
     version_fu (1.0.2)
