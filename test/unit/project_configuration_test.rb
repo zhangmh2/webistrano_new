@@ -19,7 +19,7 @@ class ProjectConfigurationTest < ActiveSupport::TestCase
     assert_not_nil p.configuration_parameters.find_by_name('scm_username')
     
     # try to create such a param and fail
-    config = p.configuration_parameters.build(:name => 'scm_usernameXXX', :value => 'MAMA_MIA')
+    config = p.configuration_parameters.build(:name => 'scm_username', :value => 'MAMA_MIA')
     assert !config.valid?
     assert_not_empty config.errors['name']
     
