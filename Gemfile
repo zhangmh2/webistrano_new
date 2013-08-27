@@ -12,6 +12,10 @@ gem "devise"
 gem "devise-encryptable"
 gem "pg"
 
+gem 'rvm-capistrano'
+gem 'capistrano-rbenv'
+gem 'capistrano-unicorn', :require => false
+
 group :development do
   gem "thin"
 
