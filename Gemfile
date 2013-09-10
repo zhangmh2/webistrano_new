@@ -8,7 +8,7 @@ gem "capistrano"
 gem "open4"
 gem "syntax"
 gem "version_fu", :git => "https://github.com/jmckible/version_fu.git"
-gem "devise"
+gem "devise", "3.0.3"
 gem "devise-encryptable"
 gem "pg"
 
