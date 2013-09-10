@@ -14,7 +14,7 @@ gem "pg"
 
 gem 'rvm-capistrano'
 gem 'capistrano-rbenv'
-gem 'capistrano-unicorn', :require => false
+gem 'capistrano-unicorn', :require => false, :git => 'https://github.com/sosedoff/capistrano-unicorn.git'
 
 group :development do
   gem "thin"
