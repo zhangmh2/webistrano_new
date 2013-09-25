@@ -10,7 +10,7 @@
 
 <% content_for(:page_title) do %>
   <% @page_title = "#{t('stage.new')} #{@original.name}" %>
-  <h2><%= t("stage.clone") %></h2>
+  <h2><%= t("stage.clone") %> <%= @original.name %></h2>
 <% end %>
 
 <% flashed_errors(:stage) %>
