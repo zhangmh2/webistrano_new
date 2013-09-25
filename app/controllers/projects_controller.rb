@@ -44,24 +44,11 @@ class ProjectsController < ApplicationController
   # POST /projects
   def create
     @project = Project.unscoped.where(params[:project]).first_or_create
+    @project.clone(@original) if load_clone_original
+    @project.save
 
-    if load_clone_original
-      action_to_render = 'clone'
-    else
-      action_to_render = 'new'
-    end
-
-    if @project
-      @project.clone(@original) if load_clone_original
-      @project.save
-
-      flash[:notice] = 'Project was successfully created.'
-      respond_with(@project, :location => @project)
-    else
-      respond_with(@project) do |format|
-        format.html {render :action => action_to_render}
-      end
-    end
+    flash[:notice] = 'Project was successfully created.'
+    respond_with(@project, :location => @project)
   end
 
   # PUT /projects/1

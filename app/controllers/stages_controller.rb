@@ -47,23 +47,11 @@ class StagesController < ApplicationController
     @stage = Stage.unscoped.where(
       params[:stage].merge(:project_id => current_project.id)
     ).first_or_create
+    @stage.clone(@original) if load_clone_original
+    @stage.save
 
-    if load_clone_original
-      action_to_render = 'clone'
-    else
-      action_to_render = 'new'
-    end
-
-    if @stage
-      @stage.clone(@original) if load_clone_original
-      @stage.save
-      flash[:notice] = 'Stage was successfully created.'
-      respond_with(@stage, :location => [current_project, @stage])
-    else
-      respond_with(@stage) do |format|
-        format.html {render :action => action_to_render}
-      end
-    end
+    flash[:notice] = 'Stage was successfully created.'
+    respond_with(@stage, :location => [current_project, @stage])
   end
 
   # PUT /projects/1/stages/1
