@@ -1,7 +1,6 @@
 module RecipesHelper
   def highlight_syntax(code)
-    require 'syntax/convertors/html'
-    raw Syntax::Convertors::HTML.for_syntax("ruby").convert(code)
+    raw CodeRay.scan(code, :ruby).div
   end
 
   def all_recipe_versions
