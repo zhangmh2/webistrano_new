@@ -4,7 +4,7 @@ gem "rails", '3.2.13'
 
 gem "exception_notification"
 
-gem "capistrano"
+gem "capistrano", "2.15.4"
 gem "open4"
 gem "coderay"
 gem "version_fu", :git => "https://github.com/jmckible/version_fu.git"
