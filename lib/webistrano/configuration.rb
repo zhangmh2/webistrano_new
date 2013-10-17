@@ -10,6 +10,7 @@ module Webistrano
     def self.default_io_proc
       Proc.new do |ch, stream, out|
         level = stream == :err ? :important : :info
+        out = out.force_encoding("UTF-8")
         ch[:options][:logger].send(level, out, "#{stream} :: #{ch[:server]}")
       end
     end
