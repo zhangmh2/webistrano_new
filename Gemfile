@@ -10,7 +10,8 @@ gem "coderay"
 gem "version_fu", :git => "https://github.com/jmckible/version_fu.git"
 gem "devise", "3.0.3"
 gem "devise-encryptable"
-gem "pg"
+
+gem 'mysql'
 
 gem 'rvm-capistrano'
 gem 'capistrano-rbenv'
