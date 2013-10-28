@@ -1,22 +1,4 @@
 class Deployment < ActiveRecord::Base
-  belongs_to :stage
-  belongs_to :user
-  has_and_belongs_to_many :roles
-  
-  validates_presence_of :task, :stage, :user
-  validates_length_of :task, :maximum => 250
-  
-  serialize :excluded_host_ids
-  
-  attr_accessible :task, :prompt_config, :description, :excluded_host_ids, :override_locking
-    
-  # given configuration hash on create in order to satisfy prompt configurations
-  attr_accessor :prompt_config
-  
-  attr_accessor :override_locking
-  
-  after_create :add_stage_roles
-  
   DEPLOY_TASKS    = ['deploy', 'deploy:default', 'deploy:migrations']
   SETUP_TASKS     = ['deploy:setup']
   STATUS_CANCELED = "canceled"
@@ -24,25 +6,32 @@ class Deployment < ActiveRecord::Base
   STATUS_SUCCESS  = "success"
   STATUS_RUNNING  = "running"
   STATUS_VALUES   = [STATUS_SUCCESS, STATUS_FAILED, STATUS_CANCELED, STATUS_RUNNING]
+
+  scope :recent, proc { |*args|
+    max = args.first || 5
+    order('deployments.created_at DESC').limit(max)
+  }
+
+  belongs_to :stage
+  belongs_to :user
+  has_and_belongs_to_many :roles
   
-  validates_inclusion_of :status, :in => STATUS_VALUES
+  validates :task, :stage, :user, :presence => true
+  validates :task, :length => {:maximum => 250}
+  validates :status, :inclusion => {:in => STATUS_VALUES}
+  validate :guard_readiness_of_stage, :on => :create
+  
+  serialize :excluded_host_ids
+  
+  attr_accessible :task, :prompt_config, :description, :excluded_host_ids, :override_locking
     
-  # check (on on creation ) that the stage is ready
-  # his has to done only on creation as later DB logging MUST always work
-  def validate_on_create
-    unless self.stage.blank?
-      errors.add('stage', 'is not ready to deploy') unless self.stage.deployment_possible?
-      
-      self.stage.prompt_configurations.each do |conf|
-        errors.add('base', "Please fill out the parameter '#{conf.name}'") unless !prompt_config.blank? && !prompt_config[conf.name.to_sym].blank?
-      end
-      
-      errors.add('lock', 'The stage is locked') if self.stage.locked? && !self.override_locking
-      
-      ensure_not_all_hosts_excluded
-    end
-  end
+  # given configuration hash on create in order to satisfy prompt configurations
+  attr_accessor :prompt_config
+  attr_accessor :override_locking
   
+  after_create :add_stage_roles
+   
+    
   def self.lock_and_fire(&block)
     transaction do
       d = Deployment.new
@@ -55,7 +44,7 @@ class Deployment < ActiveRecord::Base
     end
     true
   rescue => e
-    RAILS_DEFAULT_LOGGER.debug "DEPLOYMENT: could not fire deployment: #{e.inspect} #{e.backtrace.join("\n")}"
+    Rails.logger.debug "DEPLOYMENT: could not fire deployment: #{e.inspect} #{e.backtrace.join("\n")}"
     false
   end
   
@@ -125,9 +114,10 @@ class Deployment < ActiveRecord::Base
   # deploy through Webistrano::Deployer in background (== other process)
   # TODO - at the moment `Unix &` hack
   def deploy_in_background! 
-    unless RAILS_ENV == 'test'   
-      RAILS_DEFAULT_LOGGER.info "Calling other ruby process in the background in order to deploy deployment #{self.id} (stage #{self.stage.id}/#{self.stage.name})"
-      system("sh -c \"cd #{RAILS_ROOT} && ruby script/runner -e #{RAILS_ENV} ' deployment = Deployment.find(#{self.id}); deployment.prompt_config = #{self.prompt_config.inspect.gsub('"', '\"')} ; Webistrano::Deployer.new(deployment).invoke_task! ' >> #{RAILS_ROOT}/log/#{RAILS_ENV}.log 2>&1\" &")
+    unless Rails.env.test?
+      Rails.logger.info "Calling other ruby process in the background in order to deploy deployment #{self.id} (stage #{self.stage.id}/#{self.stage.name})"
+
+      system("sh -c \"cd #{Rails.root} && rails runner -e #{Rails.env} ' deployment = Deployment.find(#{self.id}); deployment.prompt_config = #{self.prompt_config.inspect.gsub('"', '\"')} ; Webistrano::Deployer.new(deployment).invoke_task! ' >> #{Rails.root}/log/#{Rails.env}.log 2>&1\" &")
     end
   end
   
@@ -167,12 +157,12 @@ class Deployment < ActiveRecord::Base
   end
   
   def excluded_host_ids
-    self.read_attribute('excluded_host_ids').blank? ? [] : self.read_attribute('excluded_host_ids')
+    self['excluded_host_ids'].blank? ? [] : self['excluded_host_ids']
   end
   
   def excluded_host_ids=(val)
     val = [val] unless val.is_a?(Array)
-    self.write_attribute('excluded_host_ids', val.map(&:to_i))
+    self['excluded_host_ids'] = val.map(&:to_i)
   end
   
   def cancelling_possible?
@@ -180,7 +170,9 @@ class Deployment < ActiveRecord::Base
   end
   
   def cancel!
-    raise "Canceling not possible: Either no PID or already completed" unless cancelling_possible?
+    unless cancelling_possible?
+      raise "Canceling not possible: Either no PID or already completed"
+    end
     
     Process.kill("SIGINT", self.pid)
     sleep 2
@@ -190,20 +182,16 @@ class Deployment < ActiveRecord::Base
   end
   
   def clear_lock_error
-    self.errors.instance_variable_get("@errors").delete('lock')
+    self.errors.delete('lock')
   end
   
-  protected
-  def ensure_not_all_hosts_excluded
-    unless self.stage.blank? || self.excluded_host_ids.blank?
-      if deploy_to_roles(self.stage.roles).blank?
-        errors.add('base', "You cannot exclude all hosts.")
-      end
-    end
-  end
-  
+protected
+
   def save_completed_status!(status)
-    raise 'cannot complete a second time' if self.completed?
+    if self.completed?
+      raise 'cannot complete a second time'
+    end
+
     transaction do
       stage = Stage.find(self.stage_id, :lock => true)
       stage.unlock
@@ -215,7 +203,34 @@ class Deployment < ActiveRecord::Base
   
   def notify_per_mail
     self.stage.emails.each do |email|
-      Notification.deliver_deployment(self, email)
+      Notification.deployment(self, email).deliver
     end
   end
+
+private
+
+  # check (on on creation ) that the stage is ready
+  # his has to done only on creation as later DB logging MUST always work
+  def guard_readiness_of_stage
+    unless self.stage.blank?
+      unless self.stage.deployment_possible?
+        errors.add('stage', 'is not ready to deploy')
+      end
+
+      self.stage.prompt_configurations.each do |conf|
+        if prompt_config.blank? or prompt_config[conf.name.to_sym].blank?
+          errors.add('base', "Please fill out the parameter '#{conf.name}'")
+        end
+      end
+
+      if self.stage.locked? && !self.override_locking
+        errors.add('lock', 'The stage is locked')
+      end
+
+      if self.stage.present? and self.excluded_host_ids.present? and deploy_to_roles(self.stage.roles).blank?
+        errors.add('base', "You cannot exclude all hosts.")
+      end
+    end
+  end
+
 end

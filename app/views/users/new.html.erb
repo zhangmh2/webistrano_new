@@ -1,14 +1,22 @@
-<% form_for :user, :url => users_path do |f| -%>
-  <%= render(:partial => 'form')%>
-
-  <%= link_to 'Back to users', users_path, :class => 'arrow_link ontheright', :style => 'margin-right: 330px' %>
-
-  <p>
-    <%= submit_tag "Create user" %>
-  </p>
-<% end -%>
+<% content_for(:breadcrumb) do %>
+  <% breadcrumb_box do %>
+    <%= link_to t("users"), users_path %>
+    <span class="devider">&raquo;</span>
+    <%= t("user.new") %>
+  <% end %>
+<% end %>
 
 <% content_for(:page_title) do %>
-  <% @page_title = "New user" %>
-  <h2>New user</h2>
+  <% @page_title = t("user.new") %>
+  <h2><%= t("user.new") %></h2>
 <% end %>
+
+<div>
+  <%= form_for @user, :html => {:class => "form-horizontal"} do |f| %>
+    <%= render :partial => 'form', :locals => {:form => f} %>
+    <div class="form-actions">
+      <%= f.submit t("user.create"), :class => "btn btn-primary" %>
+      <%= link_to t("user.back_to"), users_path, :class => 'arrow_link ontheright' %>
+    </div>
+  <% end %>
+</div>

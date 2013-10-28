@@ -1,10 +1,7 @@
 <% if @project.deployments.empty? %>
-  <br/>
-    This project was never deployed. 
-  <br/>
+  <div>
+    <%= t("deployment.never") %>
+  </div>
 <% else %>
-<% @project.recent_deployments.each do |deployment| %>
-    <%= render(:partial => 'deployments/list_item', :locals => {:deployment => deployment}) %>
-  <% end %>
+  <%= render :partial => 'deployments/list_item', :locals => {:deployments => @project.recent_deployments} %>
 <% end %>
-<br />

@@ -1,9 +1,15 @@
-<p>
-  <b>Name</b> (e.g. 'Prod', 'Test', 'Dev')<br />
-  <%= text_field 'stage', :name %>
-</p>
+<div class="control-group">
+  <%= form.label t("stage.name"), :class => "control-label" %>
+  <div class="controls">
+    <%= form.text_field :name, :class => "text_field" %>
+    (e.g. 'Prod', 'Test', 'Dev')
+  </div>
+</div>
 
-<p>
-  <b>Alert these emails on deploy</b> (separated by space)<br />
-  <%= text_field 'stage', :alert_emails, :style =>'width:330px' %>
-</p>
+<div class="control-group">
+  <%= form.label t("stage.alert_emails"), :class => "control-label" %>
+  <div class="controls">
+    <%= form.text_field :alert_emails, :class => "text_field" %>
+    <%= t("stage.alert_emails_under") %>
+  </div>
+</div>

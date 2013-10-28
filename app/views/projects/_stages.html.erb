@@ -1,22 +1,27 @@
 <% if @project.stages.empty? %>
-<br/>
-    <strong>No stages configured yet.</strong><br/> Stages represent one deployment scenario of a project. Typical stages are a 'Prod', 'Test' and 'Dev' stage.
-<br/>
+  <div>
+    <strong><%= t("stage.no_configured") %></strong>
+    <p><%= t("stage.no_configured_under") %>
+  </div>
 <% else %>
   <table class="sortable">
-    <tr>
-      <th width="34%">Name</th>
-      <th width="33%">#Hosts</th>
-      <th width="33%">#Deployments</th>
-    </tr>
-  <% for stage in @project.stages %>
-    <tr class="<%= cycle :even, :odd, :name => 'stages' %>">
-      <td><%= link_to h(stage.name), project_stage_path(@project, stage) %></td>
-      <td><%=h stage.hosts.count  %></td>
-      <td><%=h stage.deployments.count  %></td>
-      <td><%= link_to 'Edit', edit_project_stage_path(@project, stage) %></td>
-      <td><%= link_to 'Delete', project_stage_path(@project, stage), :confirm => 'Are you sure?', :method => :delete %></td>
-    </tr>
-  <% end %>
+    <thead>
+      <tr>
+        <th width="50%"><%= t("stage.name") %></th>
+        <th width="24%"><%= t("stage.hosts") %></th>
+        <th width="24%"><%= t("project.deployments") %></th>
+        <th width="1%"></th>
+        <th width="1%"></th>
+      </tr>
+    </thead>
+    <% for stage in @project.stages %>
+      <tr class="<%= cycle :even, :odd, :name => 'stages' %>">
+        <td><%= link_to stage.name, project_stage_path(@project, stage) %></td>
+        <td><%= stage.hosts.count  %></td>
+        <td><%= stage.deployments.count  %></td>
+        <td class="nowrap"><%= link_to t("edit"), edit_project_stage_path(@project, stage) %></td>
+        <td class="nowrap"><%= link_to t("delete"), project_stage_path(@project, stage), :confirm => 'Are you sure?', :method => :delete %></td>
+      </tr>
+    <% end %>
   </table>
 <% end %>

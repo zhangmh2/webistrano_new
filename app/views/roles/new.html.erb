@@ -1,24 +1,24 @@
-<% form_tag(project_stage_roles_path(current_project, current_stage), :method => :post) do %>
-  
-  <%= render(:partial => 'form')%>
-
-  <%= link_to 'Back to role', project_stage_path(current_project, current_stage), :class => 'arrow_link ontheright', :style => 'margin-right: 330px' %>
-
-  <p>
-    <%= submit_tag "Create" %>
-  </p>
-<% end %>
-
 <% content_for(:breadcrumb) do %>
-  <% breadcrumb_box do %>
-    <%= link_to "Back to stage", project_stage_path(current_project, current_stage), :style => "float:right", :class => "arrow_link" %>
-    Project <%= link_to current_project.name, project_path(current_project) %> &gt; 
-    Stage <%= link_to current_stage.name, project_stage_path(current_project, current_stage) %> &gt; 
-    New role
+  <%= breadcrumb_box do %>
+    <%= link_to @project.name, project_path(@project) %>
+    <span class="divider">&raquo;</span>
+    <%= link_to @stage.name, project_stage_path(@project, @stage) %>
+    <span class="divider">&raquo;</span>
+    <%= t("role.new") %>
   <% end %>
 <% end %>
 
 <% content_for(:page_title) do %>
-  <% @page_title = "New host for #{h(current_stage.name)}" %>
-  <h2>New role for <%=h current_stage.name %></h2>
+  <% @page_title = "#{t('role.new')} - #{@stage.name}" %>
+  <h2><%= t("role.new") %> - <%= @stage.name %></h2>
 <% end %>
+
+<div>
+  <%= form_for @role, :url => project_stage_roles_path(current_project, current_stage), :html => {:class => "form-horizontal"} do |f| %>
+    <%= render :partial => 'form', :locals => {:form => f} %>
+    <div class="form-actions">
+      <%= f.submit t("role.create"), :class => "btn btn-primary" %>
+      <%= link_to t("role.back_to"), project_stage_path(@project, @stage), :class => 'btn ontheright' %>
+    </div>
+  <% end %>
+</div>

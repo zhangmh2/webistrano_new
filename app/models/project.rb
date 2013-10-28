@@ -3,28 +3,13 @@ class Project < ActiveRecord::Base
   has_many :deployments, :through => :stages
   has_many :configuration_parameters, :dependent => :destroy, :class_name => "ProjectConfiguration", :order => 'name ASC'
   
-  validates_uniqueness_of :name
-  validates_presence_of :name
-  validates_length_of :name, :maximum => 250
-  validates_inclusion_of :template, :in => ProjectConfiguration.templates.keys
+  validates :name, :uniqueness => true, :presence => true, :length => {:maximum => 250}
+  validates :template, :inclusion => {:in => ProjectConfiguration.templates.keys}
   
   after_create :create_template_defaults
   
-  attr_accessible :name, :description, :template
+  attr_accessible :id, :name, :description, :template
   
-  # creates the default configuration parameters based on the template
-  def create_template_defaults
-    unless template.blank?
-      ProjectConfiguration.templates[template]::CONFIG.each do |k, v|
-        config = self.configuration_parameters.build(:name => k.to_s, :value => v.to_s)
-
-        if k.to_sym == :application          
-          config.value = self.name.gsub(/[^0-9a-zA-Z]/,"_").underscore
-        end  
-        config.save!
-      end
-    end
-  end
   
   # returns a string with all custom tasks to be loaded by the Capistrano config
   def tasks
@@ -70,11 +55,28 @@ class Project < ActiveRecord::Base
       end
 
       stage.roles.each do |role|
-        new_stage.roles << Role.new(role.attributes)
+        newRole = Role.new(:name => role.name, :primary => role.primary, :host_id => role.host_id, :no_release => role.no_release, :no_symlink => role.no_symlink, :ssh_port => role.ssh_port, :custom_name => role.custom_name)
+        new_stage.roles << newRole
       end
     end
     
     self.reload
   end
-    
+
+private
+
+  # creates the default configuration parameters based on the template
+  def create_template_defaults
+    unless template.blank?
+      ProjectConfiguration.templates[template]::CONFIG.each do |k, v|
+        config = self.configuration_parameters.build(:name => k.to_s, :value => v.to_s)
+
+        if k.to_sym == :application          
+          config.value = self.name.gsub(/[^0-9a-zA-Z]/,"_").underscore
+        end  
+        config.save!
+      end
+    end
+  end
+
 end

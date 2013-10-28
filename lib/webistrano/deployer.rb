@@ -232,6 +232,8 @@ module Webistrano
     def set_project_and_stage_names(config)
       config.set(:webistrano_project, deployment.stage.project.webistrano_project_name)
       config.set(:webistrano_stage, deployment.stage.webistrano_stage_name)
+      config.set(:webistrano_user, deployment.user.login) unless deployment.user.nil?
+      config.set(:webistrano_comment, deployment.description)
     end
   
     # casts a given string to the correct Ruby value

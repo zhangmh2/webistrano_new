@@ -1,20 +1,47 @@
-source "http://rubygems.org"
+source "https://rubygems.org"
 
-gem 'bundler', "~>1.0.10"
-gem "rails", "2.3.11"
-gem "mysql"
-gem "erubis"
-gem "rake"
-gem "syntax", "1.0.0"
-gem "capistrano", "~>2.12.0"
-gem "open4", "0.9.3"
-gem "exception_notification", "2.3.3.0"
-gem "unicorn", "~>4.2.1"
+gem "rails", '3.2.13'
 
-group :test do
-  gem "mocha", "0.9.8"
-end
+gem "exception_notification"
+
+gem "capistrano", "2.15.4"
+gem "open4"
+gem "coderay"
+gem "version_fu", :git => "https://github.com/jmckible/version_fu.git"
+gem "devise", "3.0.3"
+gem "devise-encryptable"
+gem "pg"
+
+gem 'rvm-capistrano'
+gem 'capistrano-rbenv'
+gem 'capistrano-unicorn', :require => false, :git => 'https://github.com/sosedoff/capistrano-unicorn.git'
+gem 'whenever', :require => false
 
 group :development do
-  gem 'ruby-debug'
+  gem "thin"
+
+  gem "debugger"
+  gem "pry"
+  gem "pry-rails"
+end
+
+group :test do
+  gem "mocha", :require => false
+  gem "factory_girl_rails"
+  gem "database_cleaner"
+  gem 'minitest-reporters'
+end
+
+group :production do
+  gem "unicorn"
+end
+
+group :assets do
+  gem "jquery-rails"
+  gem "uglifier"
+  gem 'therubyracer'
+end
+
+if File.exists?('config/Gemfile.extras')
+  eval File.read('config/Gemfile.extras')
 end
