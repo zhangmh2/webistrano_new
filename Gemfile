@@ -11,7 +11,7 @@ gem "version_fu", :git => "https://github.com/jmckible/version_fu.git"
 gem "devise", "3.0.3"
 gem "devise-encryptable"
 
-gem 'mysql'
+gem 'mysql2'
 
 gem 'rvm-capistrano'
 gem 'capistrano-rbenv'
