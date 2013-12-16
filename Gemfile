@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-gem "rails", '3.2.13'
+gem "rails", '3.2.15'
 
 gem "exception_notification"
 
@@ -16,6 +16,7 @@ gem 'mysql2'
 gem 'rvm-capistrano'
 gem 'capistrano-rbenv'
 gem 'capistrano-unicorn', :require => false, :git => 'https://github.com/sosedoff/capistrano-unicorn.git'
+
 gem 'whenever', :require => false
 
 group :development do
