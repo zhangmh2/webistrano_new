@@ -45,7 +45,11 @@
   
     The default user is `admin`, the password is `admin!`. Please change the password
     after the first login.
-  
+    
+##Extras
+  net-ssh is fixed to 2.7 as anything above breaks webistrano
+  web notifications using notify.js, enable when your about to deploy so you don't have to keep looking at deployments to see if they are done.
+
 ##Author
   Jonathan Weiss <jw@innerewut.de>
   
